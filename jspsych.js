@@ -166,7 +166,7 @@ class MediaAPI {
         });
     }
     preloadAudio(files, callback_complete = () => { }, callback_load = (filepath) => { }, callback_error = (error_msg) => { }) {
-        files = unique(files.flat());
+        files = Utils.unique(files.flat());
         let n_loaded = 0;
         if (files.length == 0) {
             callback_complete();
@@ -247,7 +247,7 @@ class MediaAPI {
     }
     preloadImages(images, callback_complete = () => { }, callback_load = (filepath) => { }, callback_error = (error_msg) => { }) {
         // flatten the images array
-        images = unique(images.flat());
+        images = Utils.unique(images.flat());
         var n_loaded = 0;
         if (images.length === 0) {
             callback_complete();
@@ -272,7 +272,7 @@ class MediaAPI {
     }
     preloadVideo(videos, callback_complete = () => { }, callback_load = (filepath) => { }, callback_error = (error_msg) => { }) {
         // flatten the video array
-        videos = unique(videos.flat());
+        videos = Utils.unique(videos.flat());
         let n_loaded = 0;
         if (videos.length === 0) {
             callback_complete();
@@ -828,6 +828,23 @@ class DataCollection {
     filterCustom(fn) {
         return new DataCollection(this.trials.filter(fn));
     }
+    filterColumns(columns) {
+        let keys = typeof columns !== "undefined" ? columns : [];
+        if (keys.length < 1) {
+            return DataCollection(trials);
+        } else {
+            var new_trials = [];
+            for (var i in trials) {
+                var new_trial = {};
+                keys.forEach(function (key) {
+                    new_trial[key] = trials[i][key];
+                })
+                new_trials.push(new_trial);
+            }
+            return DataCollection(new_trials);
+        }
+
+    }
     ignore(columns) {
         if (!Array.isArray(columns)) {
             columns = [columns];
@@ -1327,13 +1344,191 @@ class TimelineNode {
             console.error("Cannot add new trials to a trial-level node.");
         }
         else {
-            this.loadPluginsSrc(parameters);
+            this.jsPsych.loadPluginsSrc(parameters);
             this.timeline_parameters.timeline.push(new TimelineNode(this.jsPsych, Object.assign(Object.assign({}, this.node_trial_data), parameters), this, this.timeline_parameters.timeline.length));
         }
     }
 }
 
+class GitHub {
+    constructor(config) {
+        this.owner = config["owner"] ? config["owner"] : "";
+        this.repo = config["repo"] ? config["repo"] : "";
+        this.path = config["path"] ? config["path"] : "";
+        this.token = config["token"] ? config["token"] : "";
+        if (this.token.length < 1) {
+            this.header = {
+                "Content-Type": "application/json"
+            }
+        } else {
+            this.header = {
+                "Content-Type": "application/json",
+                "Authorization": `token ${this.token}`
+            }
+        }
+    }
+    getID = function (experID = "", length = 4, suffix = "") {
+        let name = `${experID ? experID : ""}`;
+        let i = 1;
+        while (this.isFileExist(name + i.toString().padStart(length, "0") + suffix + ".csv")) {
+            i++
+        }
+        return i;
+    }
+    isFileExist = function (fileName) {
+        let res = new XMLHttpRequest();
+        res.open(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
+            false
+        )
+        for (k in this.header) {
+            res.setRequestHeader(k, this.header[k]);
+        }
+        res.send();
+        if (res.status == 200) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    delete = function (fileName, message) {
+        let formd = {
+            message: message,
+            sha: this.getFileSha(fileName)
+        };
+        let res = new XMLHttpRequest();
+        res.open(
+            "DELETE",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
+            false
+        )
+        for (k in this.header) {
+            res.setRequestHeader(k, this.header[k]);
+        }
+        res.send(JSON.stringify(formd));
+
+        if (res.status >= 400) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    getFileSha = function (fileName) {
+        let res = new XMLHttpRequest();
+        res.open(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
+            false
+        );
+        for (k in this.header) {
+            res.setRequestHeader(k, this.header[k]);
+        }
+        res.send();
+        // console.log(res);
+        return JSON.parse(res.responseText)["sha"]
+    }
+    getLastSha = function () {
+        let res = new XMLHttpRequest();
+        res.open(
+            "GET",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/commits`,
+            false
+        );
+        for (k in this.header) {
+            res.setRequestHeader(k, this.header[k]);
+        }
+        res.send();
+        return JSON.parse(res.responseText)[0].sha;
+    }
+    update = function (fileName, message, content) {
+        let formd = {
+            message: message,
+            content: btoa(content),
+            sha: this.getFileSha(fileName)
+        };
+        let res = new XMLHttpRequest();
+        res.open(
+            "PUT",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
+            false
+        )
+        for (k in this.header) {
+            res.setRequestHeader(k, this.header[k]);
+        }
+        res.send(JSON.stringify(formd));
+
+        if (res.status >= 400) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    push(fileName, message, content) {
+        let formd = {
+            message: message,
+            content: btoa(content)
+        };
+        let res = new XMLHttpRequest();
+        res.open(
+            "PUT",
+            `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
+            false
+        );
+        for (k in this.header) {
+            res.setRequestHeader(k, this.header[k]);
+        }
+        res.send(JSON.stringify(formd));
+
+        if (res.status >= 400) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    upload(fileName, message, content) {
+        if (this.isFileExist(fileName)) {
+            return this.update(fileName, message, content);
+        } else {
+            return this.push(fileName, message, content);
+        }
+    }
+}
+
 class Utils {
+    static combination(arr, num) {
+        var r = [];
+        (function f(t, a, n) {
+            if (n == 0) return r.push(t);
+            for (var i = 0, l = a.length; i <= l - n; i++) {
+                f(t.concat(a[i]), a.slice(i + 1), n - 1);	//取a数组的第一个值放入到t中，同时a数组删除取出来的那个值，余下的值用来遍历
+            }
+        })([], arr, num);
+        return r;
+    }
+
+    static permutation(arr, num) {
+        var r = [];
+        (function f(t, a, n) {
+            if (n == 0) return r.push(t);
+            for (var i = 0, l = a.length; i < l; i++) {
+                f(t.concat(a[i]), a.slice(0, i).concat(a.slice(i + 1)), n - 1);
+            }
+        })([], arr, num);
+        return r;
+    }
+    static getQueryString() {
+        const a = window.location.search.substr(1).split("&");
+        const b = {};
+        for (let i = 0; i < a.length; ++i) {
+            const p = a[i].split("=", 2);
+            if (p.length == 1)
+                b[p[0]] = "";
+            else
+                b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+        return b;
+    }
     static unique(arr) {
         return [...new Set(arr)];
     }
@@ -1529,7 +1724,7 @@ class Data {
     }
     urlVariables() {
         if (typeof this.query_string == "undefined") {
-            this.query_string = getQueryString();
+            this.query_string = Utils.getQueryString();
         }
         return this.query_string;
     }
@@ -1682,39 +1877,60 @@ class Random {
     }
     static shuffleNoRepeats(arr, equalityTest) {
         if (!Array.isArray(arr)) {
-            console.error("First argument to shuffleNoRepeats() must be an array.");
+            console.error('First argument to jsPsych.randomization.shuffleNoRepeats() must be an array.')
         }
-        if (typeof equalityTest !== "undefined" && typeof equalityTest !== "function") {
-            console.error("Second argument to shuffleNoRepeats() must be a function.");
+        if (typeof equalityTest !== 'undefined' && typeof equalityTest !== 'function') {
+            console.error('Second argument to jsPsych.randomization.shuffleNoRepeats() must be a function.')
         }
         // define a default equalityTest
-        if (typeof equalityTest == "undefined") {
+        if (typeof equalityTest == 'undefined') {
             equalityTest = function (a, b) {
-                if (a === b) {
+                if (JSON.stringify(a) === JSON.stringify(b)) {
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
-            };
-        }
-        const random_shuffle = this.shuffle(arr);
-        for (let i = 0; i < random_shuffle.length - 1; i++) {
-            if (equalityTest(random_shuffle[i], random_shuffle[i + 1])) {
-                // neighbors are equal, pick a new random neighbor to swap (not the first or last element, to avoid edge cases)
-                let random_pick = Math.floor(Math.random() * (random_shuffle.length - 2)) + 1;
-                // test to make sure the new neighbor isn't equal to the old one
-                while (equalityTest(random_shuffle[i + 1], random_shuffle[random_pick]) ||
-                    equalityTest(random_shuffle[i + 1], random_shuffle[random_pick + 1]) ||
-                    equalityTest(random_shuffle[i + 1], random_shuffle[random_pick - 1])) {
-                    random_pick = Math.floor(Math.random() * (random_shuffle.length - 2)) + 1;
-                }
-                const new_neighbor = random_shuffle[random_pick];
-                random_shuffle[random_pick] = random_shuffle[i + 1];
-                random_shuffle[i + 1] = new_neighbor;
             }
         }
-        return random_shuffle;
+        // Conversion type
+        let list = {};
+        arr.forEach((v, i) => {
+            list[JSON.stringify(v)] = list[JSON.stringify(v)] ? list[JSON.stringify(v)] + 1 : 1;
+        });
+        // Start arranging combined data
+        let random_shuffle = (function c(arr, re) {
+            let max = 0, // Maximum number of repetitions in the array
+                sum = 0, // Remove the maximum quantity and the remaining quantity
+                sarr = Object.keys(arr);
+            if (sarr.length < 1) {
+                return re;
+            } // if length of the keys in arr less than 1, means 0, then return. because there is no thing left
+            for (let i in arr) {
+                if (!arr[max] || arr[i] > arr[max]) {
+                    max = i;
+                }
+                sum += arr[i];
+            } // result {1:2, 3:3} original [1,1,3,3,3]
+            sum -= arr[max];
+            let rand_index = (arr[max] - sum >= 1) ? max : sarr[Math.floor(Math.random() * sarr.length)]; // get the value in arr
+            if (re.length && equalityTest(JSON.parse(rand_index), JSON.parse(re[re.length - 1]))) { // re is the result, make a judgement
+                let tmp = sarr.splice(sarr.indexOf(rand_index), 1)[0]; // 
+                rand_index = (sarr.length > 0) ? sarr[Math.floor(Math.random() * sarr.length)] : tmp; //
+            }
+            re.push(rand_index);
+            arr[rand_index] -= 1;
+            if (arr[rand_index] < 1) {
+                delete arr[rand_index];
+            }
+            return c(arr, re);
+        })(list, []);
+        // End
+        // Conversion type
+        let out = [];
+        random_shuffle.forEach(v => {
+            out.push(JSON.parse(v));
+        });
+        return out;
     }
     static shuffleAlternateGroups(arr_groups, random_group_order = false) {
         const n_groups = arr_groups.length;
@@ -2023,10 +2239,13 @@ class jsPsych {
         if (typeof (timeline) === "undefined") {
             return plugins;
         }
+        if (!Array.isArray(timeline)) {
+            timeline = [timeline];
+        }
         timeline.forEach(f => {
             if (typeof (f) === "undefined") { return plugins; }
             if (f.timeline) {
-                plugins = getPlugins(f.timeline, plugins);
+                plugins = this.getPlugins(f.timeline, plugins);
             }
             if (f.type && plugins.indexOf(f.type) < 0) {
                 plugins.push(f.type);
@@ -2035,16 +2254,16 @@ class jsPsych {
         return plugins;
     }
     loadPluginsSrc(timeline) {
-        for(let i of this.getPlugins(timeline)) {
-            if(typeof(this.plugins[i]) == "undefined") {
-                Utils.addJs(document.head, `plugins/plugin-${i}.js`)
+        for (let i of this.getPlugins(timeline)) {
+            if (typeof (this.plugins[i]) == "undefined") {
+                Utils.addJs(document.head, `/plugins/plugin-${i}.js`)
             }
         }
     }
     loadExtensionsSrc(extensions) {
         extensions.forEach(v => {
-            if(typeof(this.extensions[v]) == "undefined") {
-                Utils.addJs(document.head, `extensions/extension-${v.type}.js`)
+            if (typeof (this.extensions[v]) == "undefined") {
+                Utils.addJs(document.head, `/extensions/extension-${v.type}.js`)
             }
         })
     }
@@ -2609,5 +2828,3 @@ class jsPsych {
         return this.progress_bar_amount;
     }
 }
-
-// let jspsych = new jsPsych();
