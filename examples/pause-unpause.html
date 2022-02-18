@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">  </head>
+  <body></body>
+  <script>
+
+    var jspsych = new jsPsych({
+      on_finish: function() {
+        jspsych.data.displayData();
+      } 
+    });
+
+    var first = {
+      type: ["html-keyboard-response"],
+      stimulus: 'First trial! Experiment will pause for 2s in between trials. Press any key.',
+      post_trial_gap: 0,
+      on_finish: function() {
+        jspsych.pauseExperiment();
+        setTimeout(jspsych.resumeExperiment, 2000);
+      }
+    };
+
+    var second = {
+      type: ["html-keyboard-response"],
+      stimulus: 'Second trial!'
+    };
+
+    jspsych.run([first, second]);
+
+  </script>
+</html>

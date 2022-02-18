@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
+  </head>
+  <body></body>
+  <script>
+
+    var jspsych = new jsPsych({
+      on_finish: function() {
+        jspsych.data.displayData();
+      }
+    });
+
+    var preload = {
+      type: ["preload"],
+      auto_preload: true
+    };
+
+    var block_1 = {
+      type: ["image-keyboard-response"],
+      stimulus: 'img/happy_face_1.jpg',
+      choices: ['y','n'],
+      prompt: '<p>Data for this trial should have a random int 0-19 on next page. Press "y" or "n".</p>',
+      stimulus_width: 300,
+      data: function() {
+        return {
+          random_number: Math.floor(Math.random() * 20)
+        }
+      }
+    };
+
+    jspsych.run([preload, block_1]);
+
+  </script>
+</html>

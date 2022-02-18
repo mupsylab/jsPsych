@@ -40,8 +40,8 @@ jspsych.plugins["webgazer-init-camera"] = (function () {
           var load_time;
           // function to end trial when it is time
           const end_trial = () => {
-              this.jsPsych.extensions["webgazer"].pause();
-              this.jsPsych.extensions["webgazer"].hideVideo();
+              this.jsPsych.example_extensions["webgazer"].pause();
+              this.jsPsych.example_extensions["webgazer"].hideVideo();
               // kill any remaining setTimeout handlers
               this.jsPsych.pluginAPI.clearAllTimeouts();
               // gather the data to store for the trial
@@ -68,8 +68,8 @@ jspsych.plugins["webgazer-init-camera"] = (function () {
           <div id='webgazer-init-container' style='position: relative; width:100vw; height:100vh'>
           </div>`;
               display_element.innerHTML = html;
-              this.jsPsych.extensions["webgazer"].showVideo();
-              this.jsPsych.extensions["webgazer"].resume();
+              this.jsPsych.example_extensions["webgazer"].showVideo();
+              this.jsPsych.example_extensions["webgazer"].resume();
               var wg_container = display_element.querySelector("#webgazer-init-container");
               wg_container.innerHTML = `
           <div style='position: absolute; top: max(260px, 40%); left: calc(50% - 400px); width:800px;'>
@@ -94,8 +94,8 @@ jspsych.plugins["webgazer-init-camera"] = (function () {
                   end_trial();
               });
           };
-          if (!this.jsPsych.extensions.webgazer.isInitialized()) {
-              this.jsPsych.extensions.webgazer
+          if (!this.jsPsych.example_extensions.webgazer.isInitialized()) {
+              this.jsPsych.example_extensions.webgazer
                   .start()
                   .then(() => {
                   showTrial();

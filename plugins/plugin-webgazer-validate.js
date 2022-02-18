@@ -92,7 +92,7 @@ jspsych.plugins["webgazer-validate"] = (function () {
           var start = performance.now();
           // function to end trial when it is time
           const end_trial = () => {
-              this.jsPsych.extensions.webgazer.stopSampleInterval();
+              this.jsPsych.example_extensions.webgazer.stopSampleInterval();
               // kill any remaining setTimeout handlers
               this.jsPsych.pluginAPI.clearAllTimeouts();
               // clear the display
@@ -110,7 +110,7 @@ jspsych.plugins["webgazer-validate"] = (function () {
               var pt_start_val = performance.now() + trial.time_to_saccade;
               var pt_finish = pt_start_val + trial.validation_duration;
               var pt_data = [];
-              var cancelGazeUpdate = this.jsPsych.extensions["webgazer"].onGazeUpdate((prediction) => {
+              var cancelGazeUpdate = this.jsPsych.example_extensions["webgazer"].onGazeUpdate((prediction) => {
                   if (performance.now() > pt_start_val) {
                       pt_data.push({
                           x: prediction.x,
@@ -151,9 +151,9 @@ jspsych.plugins["webgazer-validate"] = (function () {
               }
               trial_data.validation_points = val_points;
               points_completed = -1;
-              //jsPsych.extensions['webgazer'].resume();
-              this.jsPsych.extensions.webgazer.startSampleInterval();
-              //jsPsych.extensions.webgazer.showPredictions();
+              //jsPsych.example_extensions['webgazer'].resume();
+              this.jsPsych.example_extensions.webgazer.startSampleInterval();
+              //jsPsych.example_extensions.webgazer.showPredictions();
               next_validation_point();
           };
           const show_validation_data = () => {
@@ -169,13 +169,13 @@ jspsych.plugins["webgazer-validate"] = (function () {
                   '<button id="cont" style="position:absolute; top: 50%; left:calc(50% - 50px); width: 100px;" class="jspsych-btn">Continue</btn>';
               wg_container.innerHTML = html;
               wg_container.querySelector("#cont").addEventListener("click", () => {
-                  this.jsPsych.extensions.webgazer.pause();
+                  this.jsPsych.example_extensions.webgazer.pause();
                   end_trial();
               });
               // turn on webgazer's loop
-              this.jsPsych.extensions.webgazer.showPredictions();
-              this.jsPsych.extensions.webgazer.stopSampleInterval();
-              this.jsPsych.extensions.webgazer.resume();
+              this.jsPsych.example_extensions.webgazer.showPredictions();
+              this.jsPsych.example_extensions.webgazer.stopSampleInterval();
+              this.jsPsych.example_extensions.webgazer.resume();
           };
           const validation_done = () => {
               trial_data.samples_per_sec = calculateSampleRate(trial_data.raw_gaze).toFixed(2);
