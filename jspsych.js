@@ -1344,7 +1344,9 @@ class TimelineNode {
             console.error("Cannot add new trials to a trial-level node.");
         }
         else {
-            this.jsPsych.loadPluginsSrc(parameters);
+            if(this.opts.autoLoadAssets) {
+                his.jsPsych.loadPluginsSrc(parameters);
+            }
             this.timeline_parameters.timeline.push(new TimelineNode(this.jsPsych, Object.assign(Object.assign({}, this.node_trial_data), parameters), this, this.timeline_parameters.timeline.length));
         }
     }
@@ -2484,7 +2486,8 @@ class jsPsych {
             override_safe_mode: false,
             case_sensitive_responses: false,
             extensions: [],
-            loadPath: ""
+            loadPath: "",
+            autoLoadAssets: true
         }, options);
 
         this.opts = options;
@@ -2563,7 +2566,7 @@ class jsPsych {
         }
     }
     version() {
-        return "v6.4.0";
+        return "v6.4.1";
     }
     run(timeline) {
         return Utils.__awaiter(this, void 0, void 0, function* () {
@@ -2574,11 +2577,15 @@ class jsPsych {
             if (timeline.length === 0) {
                 console.error("No trials have been added to the timeline (the timeline is an empty array). Cannot start experiment.");
             }
-            this.loadExtensionsSrc(this.opts.extensions)
+            if(this.opts.autoLoadAssets) {
+                this.loadExtensionsSrc(this.opts.extensions);
+            }
             for (const extension of this.opts.extensions) {
                 this.example_extensions[extension.type] = new this.extensions[extension.type](this);
             }
-            this.loadPluginsSrc(timeline);
+            if(this.opts.autoLoadAssets) { 
+                this.loadPluginsSrc(timeline);
+            }
             // create experiment timeline
             this.timelineDescription = timeline;
             this.timeline = new TimelineNode(this, { timeline });
