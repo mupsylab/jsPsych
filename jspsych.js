@@ -2479,7 +2479,6 @@ class jsPsych {
             call_immediate: false,
         };
         this.progress_bar_amount = 0;
-        this.example_extensions = {};
         // override default options if user specifies an option
         options = Object.assign({
             display_element: undefined,
@@ -2596,7 +2595,7 @@ class jsPsych {
                 this.loadExtensionsSrc(this.opts.extensions);
             }
             for (const extension of this.opts.extensions) {
-                this.example_extensions[extension.type] = new this.extensions[extension.type](this);
+                this.extensions[extension.type] = new extensions[extension.type](this);
             }
             if(this.opts.autoLoadAssets) { 
                 this.loadPluginsSrc(timeline);
@@ -2719,7 +2718,7 @@ class jsPsych {
         // handle extension callbacks
         if (Array.isArray(current_trial.extensions)) {
             for (const extension of current_trial.extensions) {
-                const ext_data_values = this.example_extensions[extension.type].on_finish(extension.params);
+                const ext_data_values = this.extensions[extension.type].on_finish(extension.params);
                 Object.assign(trial_data_values, ext_data_values);
             }
         }
@@ -2877,7 +2876,7 @@ class jsPsych {
             // run the .initialize method of any extensions that are in use
             // these should return a Promise to indicate when loading is complete
             try {
-                yield Promise.all(extensions.map((extension) => this.example_extensions[extension.type].initialize(extension.params || {})));
+                yield Promise.all(extensions.map((extension) => this.extensions[extension.type].initialize(extension.params || {})));
             }
             catch (error_message) {
                 console.error(error_message);
@@ -2960,7 +2959,7 @@ class jsPsych {
         // call any on_start functions for extensions
         if (Array.isArray(trial.extensions)) {
             for (const extension of trial.extensions) {
-                this.example_extensions[extension.type].on_start(extension.params);
+                this.extensions[extension.type].on_start(extension.params);
             }
         }
         // apply the focus to the element containing the experiment.
@@ -2984,7 +2983,7 @@ class jsPsych {
             // call any on_load functions for extensions
             if (Array.isArray(trial.extensions)) {
                 for (const extension of trial.extensions) {
-                    this.example_extensions[extension.type].on_load(extension.params);
+                    this.extensions[extension.type].on_load(extension.params);
                 }
             }
         };

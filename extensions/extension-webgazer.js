@@ -1,4 +1,5 @@
-jspsych.extensions["webgazer"] = (function () {
+if(typeof(extensions) != "object") { extensions = {} }
+extensions["webgazer"] = (function () {
   'use strict';
 
   class WebGazerExtension {

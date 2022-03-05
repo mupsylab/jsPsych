@@ -87,9 +87,9 @@ jspsych.plugins["webgazer-calibrate"] = (function () {
               next_calibration_point();
           };
           const calibrate = () => {
-              this.jsPsych.example_extensions["webgazer"].resume();
+              this.jsPsych.extensions["webgazer"].resume();
               if (trial.calibration_mode == "click") {
-                  this.jsPsych.example_extensions["webgazer"].startMouseCalibration();
+                  this.jsPsych.extensions["webgazer"].startMouseCalibration();
               }
               next_calibration_round();
           };
@@ -127,7 +127,7 @@ jspsych.plugins["webgazer-calibrate"] = (function () {
                   var pt_finish = performance.now() + trial.time_to_saccade + trial.time_per_point;
                   const watch_dot = () => {
                       if (performance.now() > pt_start_cal) {
-                          this.jsPsych.example_extensions["webgazer"].calibratePoint(x, y, "click");
+                          this.jsPsych.extensions["webgazer"].calibratePoint(x, y, "click");
                       }
                       if (performance.now() < pt_finish) {
                           requestAnimationFrame(watch_dot);
@@ -141,16 +141,16 @@ jspsych.plugins["webgazer-calibrate"] = (function () {
           };
           const calibration_done = () => {
               if (trial.calibration_mode == "click") {
-                  this.jsPsych.example_extensions["webgazer"].stopMouseCalibration();
+                  this.jsPsych.extensions["webgazer"].stopMouseCalibration();
               }
               wg_container.innerHTML = "";
               end_trial();
           };
           // function to end trial when it is time
           const end_trial = () => {
-              this.jsPsych.example_extensions["webgazer"].pause();
-              this.jsPsych.example_extensions["webgazer"].hidePredictions();
-              this.jsPsych.example_extensions["webgazer"].hideVideo();
+              this.jsPsych.extensions["webgazer"].pause();
+              this.jsPsych.extensions["webgazer"].hidePredictions();
+              this.jsPsych.extensions["webgazer"].hideVideo();
               // kill any remaining setTimeout handlers
               this.jsPsych.pluginAPI.clearAllTimeouts();
               // gather the data to store for the trial

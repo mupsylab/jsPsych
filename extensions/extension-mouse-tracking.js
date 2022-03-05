@@ -1,4 +1,5 @@
-jspsych.extensions["mouse-tracking"] = (function () {
+if(typeof(extensions) != "object") { extensions = {} }
+extensions["mouse-tracking"] = (function () {
     'use strict';
 
     /*! *****************************************************************************
