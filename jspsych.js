@@ -1279,6 +1279,20 @@ class TimelineNode {
             }
         }
     }
+    recordStatus() {
+        localStorage.setItem("current_location", this.progress.current_location);
+        localStorage.setItem("current_repetition", this.progress.current_repetition);
+        localStorage.setItem("current_variable_set", this.progress.current_variable_set);
+        localStorage.setItem("current_iteration", this.progress.current_iteration);
+        localStorage.setItem("done", this.progress.done);
+    }
+    recoveryStatus() {
+        this.progress.current_location = JSON.parse(localStorage.getItem("current_location"));
+        this.progress.current_repetition = JSON.parse(localStorage.getItem("current_repetition"));
+        this.progress.current_variable_set = JSON.parse(localStorage.getItem("current_variable_set"));
+        this.progress.current_iteration = JSON.parse(localStorage.getItem("current_iteration"));
+        this.progress.done = JSON.parse(localStorage.getItem("done"));
+    }
     // mark this node as finished
     end() {
         this.progress.done = true;
@@ -2487,7 +2501,8 @@ class jsPsych {
             case_sensitive_responses: false,
             extensions: [],
             loadPath: "",
-            autoLoadAssets: true
+            autoLoadAssets: true,
+            allowRestart: false
         }, options);
 
         this.opts = options;
@@ -2593,6 +2608,9 @@ class jsPsych {
             yield this.checkExclusions(this.opts.exclusions);
             yield this.loadExtensions(this.opts.extensions);
             document.documentElement.setAttribute("jspsych", "present");
+            if(this.opts.allowRestart) {
+                this.isInterrupt();
+            }
             this.startExperiment();
             yield this.finished;
         });
@@ -2631,13 +2649,11 @@ class jsPsych {
     }
     simulate(timeline, simulation_mode = "data-only", simulation_options = {}) {
         return Utils.__awaiter(this, void 0, void 0, function* () {
-
             this.simulation_mode = simulation_mode;
             this.simulation_options = simulation_options;
             yield this.run(timeline);
         });
     }
-
     getProgress() {
         return {
             total_trials: typeof this.timeline === "undefined" ? undefined : this.timeline.length(),
@@ -3209,5 +3225,34 @@ class jsPsych {
     }
     getProgressBarCompleted() {
         return this.progress_bar_amount;
+    }
+    isInterrupt() {
+        if(localStorage.getItem("global_trial_index")) {
+            if(confirm("我们已经检测到你当前进行实验的时候存在中断的情况，请问是否接着继续？")) {
+                this.recoveryStatus();
+            } else {
+                if(!confirm("如果要重新开始实验，请按确定键")) {
+                    this.recoveryStatus();
+                }
+            }
+        }
+    }
+    recordStatus() {
+        this.pauseExperiment();
+        localStorage.setItem("global_trial_index", this.global_trial_index);
+        localStorage.setItem("current_trial_finished", this.current_trial_finished);
+        this.timeline.recordStatus();
+        localStorage.setItem("data", JSON.stringify(this.data.get().json()))
+        this.resumeExperiment();
+    }
+    recoveryStatus() { 
+        this.pauseExperiment();
+        this.global_trial_index = JSON.parse(localStorage.getItem("global_trial_index"));
+        this.current_trial_finished = JSON.parse(localStorage.getItem("current_trial_finished"));
+        this.timeline.recoveryStatus();
+        JSON.parse(JSON.parse(localStorage.getItem("data"))).forEach((v,i) => {
+            this.data.get().push(v);
+        });
+        this.resumeExperiment();
     }
 }
