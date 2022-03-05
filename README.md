@@ -1,6 +1,6 @@
 此版本基于`jspsych`的`6.3.0`和`7.1.2`进行的整合修改，并未使用`npm`
 
-![logo](http://www.jspsych.org/img/jspsych-logo.jpg)
+![logo](https://camo.githubusercontent.com/81e48a25cccbf48a83e0c0adafc9353d615489ab0c368b4ea9689e455c04e9a5/687474703a2f2f7777772e6a7370737963682e6f72672f372e302f696d672f6a7370737963682d6c6f676f2e6a7067)
 
 jsPsych is a JavaScript library for creating behavioral experiments that run in a web browser. It provides a framework for defining experiments using a set of flexible plugins that create different kinds of events, and collect different kinds of data. By assembling these plugins together, it is possible to create a wide range of online experiments.
 

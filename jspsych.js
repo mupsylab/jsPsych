@@ -1279,20 +1279,6 @@ class TimelineNode {
             }
         }
     }
-    recordStatus() {
-        localStorage.setItem("current_location", this.progress.current_location);
-        localStorage.setItem("current_repetition", this.progress.current_repetition);
-        localStorage.setItem("current_variable_set", this.progress.current_variable_set);
-        localStorage.setItem("current_iteration", this.progress.current_iteration);
-        localStorage.setItem("done", this.progress.done);
-    }
-    recoveryStatus() {
-        this.progress.current_location = JSON.parse(localStorage.getItem("current_location"));
-        this.progress.current_repetition = JSON.parse(localStorage.getItem("current_repetition"));
-        this.progress.current_variable_set = JSON.parse(localStorage.getItem("current_variable_set"));
-        this.progress.current_iteration = JSON.parse(localStorage.getItem("current_iteration"));
-        this.progress.done = JSON.parse(localStorage.getItem("done"));
-    }
     // mark this node as finished
     end() {
         this.progress.done = true;
@@ -2459,6 +2445,10 @@ class jsPsych {
         this.paused = false;
         this.waiting = false;
         /**
+         * Is the experiment interrupted and resumed
+         */
+        this.is_interrupt = false;
+        /**
          * is the page retrieved directly via file:// protocol (true) or hosted on a server (false)?
          */
         this.file_protocol = false;
@@ -2501,7 +2491,7 @@ class jsPsych {
             extensions: [],
             loadPath: "",
             autoLoadAssets: true,
-            allowRestart: false
+            allowRestart: true
         }, options);
 
         this.opts = options;
@@ -3226,7 +3216,7 @@ class jsPsych {
         return this.progress_bar_amount;
     }
     isInterrupt() {
-        if(localStorage.getItem("global_trial_index")) {
+        if(localStorage.getItem("jspsych-data")) {
             if(confirm("我们已经检测到你当前进行实验的时候存在中断的情况，请问是否接着继续？")) {
                 this.recoveryStatus();
             } else {
@@ -3238,20 +3228,27 @@ class jsPsych {
     }
     recordStatus() {
         this.pauseExperiment();
-        localStorage.setItem("global_trial_index", this.global_trial_index);
-        localStorage.setItem("current_trial_finished", this.current_trial_finished);
-        this.timeline.recordStatus();
-        localStorage.setItem("data", JSON.stringify(this.data.get().json()))
+        localStorage.setItem("jspsych-data", this.data.get().json());
         this.resumeExperiment();
     }
     recoveryStatus() { 
         this.pauseExperiment();
-        this.global_trial_index = JSON.parse(localStorage.getItem("global_trial_index"));
-        this.current_trial_finished = JSON.parse(localStorage.getItem("current_trial_finished"));
-        this.timeline.recoveryStatus();
-        JSON.parse(JSON.parse(localStorage.getItem("data"))).forEach((v,i) => {
-            this.data.get().push(v);
-        });
+        alert("当前准备恢复到你之前的数据，在此期间你无需进行任何操作，当数据加载完毕，会有提示框出现。");
+        this.is_interrupt = true;
+        (function(tmpData) {
+            let mm = setInterval(function() {
+                if(tmpData.length < 1) {
+                    clearInterval(mm);
+                    alert("当前数据已经恢复完毕，请继续实验");
+                }
+                if (jspsych.current_trial_finished == false && tmpData.length > 0) { 
+                    jspsych.finishTrial(tmpData.splice(0,1)[0]);
+                }
+            }, 1);
+        })(JSON.parse(localStorage.getItem("jspsych-data")));
         this.resumeExperiment();
+    }
+    clearStatus() {
+        localStorage.removeItem("jspsych-data");
     }
 }
