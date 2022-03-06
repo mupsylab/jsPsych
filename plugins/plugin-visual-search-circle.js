@@ -1,4 +1,5 @@
-jspsych.plugins["visual-search-circle"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["visual-search-circle"] = (function () {
   'use strict';
 
   const info = {

@@ -1,4 +1,5 @@
-jspsych.plugins["maxdiff"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["maxdiff"] = (function () {
   'use strict';
 
   const info = {

@@ -1,4 +1,5 @@
-jspsych.plugins["video-slider-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["video-slider-response"] = (function () {
   'use strict';
 
   const info = {

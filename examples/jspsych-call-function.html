@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-call-function.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
-  </head>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">  </head>
   <body></body>
   <script>
 
-  var jsPsych = initJsPsych({
+  var jspsych = new jsPsych({
     default_iti: 1000, 
     on_finish: function() {
-      jsPsych.data.displayData();
+      jspsych.data.displayData();
     }
   });
 
   var trial = {
-    type: jsPsychCallFunction,
+    type: "call-function",
     post_trial_gap: 0,
     func: function(){ 
       var timestamp = Date.now();
@@ -28,7 +26,7 @@
   // This is to check if the plugin-specific default for post_trial_gap works.
   // If it does, then the return values for the two trials should be nearly identical.
   var next_trial = {
-    type: jsPsychCallFunction,
+    type: "call-function",
     func: function(){ 
       var timestamp = Date.now();
       console.log('trial 2: ', timestamp);
@@ -36,7 +34,7 @@
     }
   };
 
-  jsPsych.run([trial, next_trial]);
+  jspsych.run([trial, next_trial]);
 
   </script>
 </html>

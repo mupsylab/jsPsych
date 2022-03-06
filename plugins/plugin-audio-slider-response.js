@@ -1,4 +1,5 @@
-jspsych.plugins["audio-slider-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["audio-slider-response"] = (function () {
   'use strict';
 
   const info = {

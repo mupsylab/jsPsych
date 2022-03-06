@@ -1,4 +1,5 @@
-jspsych.plugins["reconstruction"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["reconstruction"] = (function () {
   'use strict';
 
   const info = {

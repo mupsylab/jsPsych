@@ -1,4 +1,5 @@
-jspsych.plugins["survey-text"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["survey-text"] = (function () {
   'use strict';
 
   const info = {

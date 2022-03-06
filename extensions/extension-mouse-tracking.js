@@ -1,5 +1,5 @@
-if(typeof(extensions) != "object") { extensions = {} }
-extensions["mouse-tracking"] = (function () {
+if(typeof(jspsychExtensions) != "object") { var jspsychExtensions = {} }
+jspsychExtensions["mouse-tracking"] = (function () {
     'use strict';
 
     /*! *****************************************************************************

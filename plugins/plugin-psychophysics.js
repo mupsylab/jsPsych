@@ -13,7 +13,8 @@
 
  /* global jsPsych, math, numeric */
 
- jspsych.plugins["psychophysics"] = (function () {
+ if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["psychophysics"] = (function () {
     "use strict";
     // console.log(jspsych)
   

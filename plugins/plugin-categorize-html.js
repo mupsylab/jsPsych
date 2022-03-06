@@ -1,4 +1,5 @@
-jspsych.plugins["animation"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["categorize-html"] = (function () {
   'use strict';
 
   const info = {

@@ -1,4 +1,5 @@
-jspsych.plugins["serial-reaction-time"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["serial-reaction-time"] = (function () {
   'use strict';
 
   const info = {

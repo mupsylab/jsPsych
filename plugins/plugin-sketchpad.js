@@ -1,4 +1,5 @@
-jspsych.plugins["sketchpad"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["sketchpad"] = (function () {
   'use strict';
 
   const info = {

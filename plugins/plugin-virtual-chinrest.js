@@ -1,4 +1,5 @@
-jspsych.plugins["virtual-chinrest"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["virtual-chinrest"] = (function () {
   'use strict';
 
   const info = {

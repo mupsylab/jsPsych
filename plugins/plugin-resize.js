@@ -1,4 +1,5 @@
-jspsych.plugins["resize"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["resize"] = (function () {
   'use strict';
 
   const info = {

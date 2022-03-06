@@ -1,4 +1,5 @@
-jspsych.plugins["survey-html-form"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["survey-html-form"] = (function () {
   'use strict';
 
   const info = {

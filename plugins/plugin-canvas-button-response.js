@@ -1,4 +1,5 @@
-jspsych.plugins["canvas-button-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["canvas-button-response"] = (function () {
   'use strict';
 
   const info = {

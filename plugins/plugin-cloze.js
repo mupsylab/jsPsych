@@ -1,4 +1,5 @@
-jspsych.plugins["cloze"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["cloze"] = (function () {
   'use strict';
 
   const info = {

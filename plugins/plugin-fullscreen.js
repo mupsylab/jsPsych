@@ -1,4 +1,5 @@
-jspsych.plugins["fullscreen"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["fullscreen"] = (function () {
   'use strict';
 
   const info = {

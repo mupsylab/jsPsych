@@ -1,4 +1,5 @@
-jspsych.plugins["survey-multi-select"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["survey-multi-select"] = (function () {
   'use strict';
 
   const info = {

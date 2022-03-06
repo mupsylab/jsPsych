@@ -1,4 +1,5 @@
-jspsych.plugins["preload"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["preload"] = (function () {
   'use strict';
 
   const info = {

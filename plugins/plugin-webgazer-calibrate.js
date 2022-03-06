@@ -1,4 +1,5 @@
-jspsych.plugins["webgazer-calibrate"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["webgazer-calibrate"] = (function () {
   'use strict';
 
   const info = {

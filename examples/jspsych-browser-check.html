@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-browser-check.js"></script>
-    <script src="../dist/plugin-html-button-response.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
-    <style>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">    <style>
       img {
         width: 300px;
       }
@@ -14,10 +11,10 @@
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych();
+    var jspsych = new jsPsych();
 
     var instructions_trial = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: `<p>The next trial will be the browser-check plugin.</p>
         <p>The minimum width is set to 1000px and the minimum height to 600px.</p>
         <p>Make your window too small now if you want to test the minimum size features.</p>`,
@@ -25,15 +22,15 @@
     }
 
     var browser_check_trial = {
-      type: jsPsychBrowserCheck,
+      type: "browser-check",
       minimum_width: 1000,
       minimum_height: 600,
     };
 
     var results_trial = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: function(){
-        var browser_check_data = jsPsych.data.get().last(1).values()[0];
+        var browser_check_data = jspsych.data.get().last(1).values()[0];
         var html = `<div style="width:700px; text-align: left">
           <p>Browser check results</p>
           <p>Window size: ${browser_check_data.width}px x ${browser_check_data.height}px.</p>
@@ -51,7 +48,7 @@
       choices: ['Done']
     }
 
-    jsPsych.run([instructions_trial, browser_check_trial, results_trial]);
+    jspsych.run([instructions_trial, browser_check_trial, results_trial]);
 
   </script>
 </html>

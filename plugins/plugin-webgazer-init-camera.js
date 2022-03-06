@@ -1,4 +1,5 @@
-jspsych.plugins["webgazer-init-camera"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["webgazer-init-camera"] = (function () {
   'use strict';
 
   const info = {

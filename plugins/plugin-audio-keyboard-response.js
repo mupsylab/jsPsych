@@ -1,4 +1,5 @@
-jspsych.plugins["audio-keyboard-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["audio-keyboard-response"] = (function () {
   'use strict';
 
   const info = {

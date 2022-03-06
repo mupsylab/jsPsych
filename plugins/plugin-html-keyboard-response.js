@@ -1,4 +1,5 @@
-jspsych.plugins["html-keyboard-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["html-keyboard-response"] = (function () {
   'use strict';
 
   const info = {

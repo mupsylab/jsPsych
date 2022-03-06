@@ -1,29 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="../dist/jspsych.js"></script>
-  <script src="../dist/plugin-audio-keyboard-response.js"></script>
-  <script src="../dist/plugin-html-button-response.js"></script>
-  <script src="../dist/plugin-preload.js"></script>
-  <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
-</head>
+  <script src="../jspsych.js"></script>
+  <link rel="stylesheet" href="../jspsych.css"></head>
 <body></body>
 <script>
 
-  var jsPsych = initJsPsych({
+  var jspsych = new jsPsych({
     default_iti: 250, 
     on_finish: function() {
-      jsPsych.data.displayData()
+      jspsych.data.displayData()
     }
   });
 
   var preload = {
-    type: jsPsychPreload,
+    type: ["preload"],
     auto_preload: true
   };
 
   var pre_audio = {
-    type: jsPsychHtmlButtonResponse,
+    type: "html-button-response",
     stimulus: '<div style="max-width:600px;"><p>Some browsers now require the user to interact with a page before it can play audio. '+
     'Clicking the button below counts as an interaction.</p><p>Be aware of this when planning audio experiments if '+
     'you want the first trial to include audio.</p></div>',
@@ -31,7 +27,7 @@
   }
 
   var trial_1 = {
-    type: jsPsychAudioKeyboardResponse,
+    type: "audio-keyboard-response",
     stimulus: 'sound/speech_blue.mp3',
     choices: ['y', 'n'],
     prompt: '<div style="width: 300px; height: 300px; background-color: #0000ff; display: inline-block;"></div>'+
@@ -39,7 +35,7 @@
   }
 
   var trial_2 = {
-    type: jsPsychAudioKeyboardResponse,
+    type: "audio-keyboard-response",
     stimulus: 'sound/speech_green.mp3',
     choices: ['y', 'n'],
     trial_duration: 5000,
@@ -48,7 +44,7 @@
   }
 
   var trial_3 = {
-    type: jsPsychAudioKeyboardResponse,
+    type: "audio-keyboard-response",
     stimulus: 'sound/speech_red.mp3',
     choices: "NO_KEYS",
     trial_duration: 2000,
@@ -56,14 +52,14 @@
   }
 
   trial_4 = {
-    type: jsPsychAudioKeyboardResponse,
+    type: "audio-keyboard-response",
     stimulus: 'sound/speech_joke.mp3',
     choices: "ALL_KEYS",
     prompt: '<p>When the audio stops, press any key to end the trial.</p><p>Responses made while the audio is still playing will be ignored.</p>',
     response_allowed_while_playing: false
   }
 
-  jsPsych.run([preload, pre_audio, trial_1, trial_2, trial_3, trial_4]);  
+  jspsych.run([preload, pre_audio, trial_1, trial_2, trial_3, trial_4]);  
   
 </script>
 </html>

@@ -1,4 +1,5 @@
-jspsych.plugins["webgazer-validate"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["webgazer-validate"] = (function () {
   'use strict';
 
   const info = {

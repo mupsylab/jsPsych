@@ -1,4 +1,5 @@
-jspsych.plugins["canvas-keyboard-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["canvas-keyboard-response"] = (function () {
 
   'use strict';
 

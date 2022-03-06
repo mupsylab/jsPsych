@@ -1,4 +1,5 @@
-jspsych.plugins["instructions"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["instructions"] = (function () {
   'use strict';
 
   const info = {

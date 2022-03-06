@@ -1,4 +1,5 @@
-jspsych.plugins["serial-reaction-time-mouse"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["serial-reaction-time-mouse"] = (function () {
   'use strict';
 
   const info = {

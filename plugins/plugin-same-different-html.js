@@ -1,4 +1,5 @@
-jspsych.plugins["same-different-html"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["same-different-html"] = (function () {
   'use strict';
 
   const info = {

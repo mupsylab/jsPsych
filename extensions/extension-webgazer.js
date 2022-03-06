@@ -1,5 +1,5 @@
-if(typeof(extensions) != "object") { extensions = {} }
-extensions["webgazer"] = (function () {
+if(typeof(jspsychExtensions) != "object") { var jspsychExtensions = {} }
+jspsychExtensions["webgazer"] = (function () {
   'use strict';
 
   class WebGazerExtension {

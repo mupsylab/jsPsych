@@ -2,7 +2,8 @@
  * Example plugin template
  */
 
-jspsych.plugins["SALT"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["SALT"] = (function () {
   'use strict';
 
   const info = {

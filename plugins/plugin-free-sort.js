@@ -1,4 +1,5 @@
-jspsych.plugins["free-sort"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["free-sort"] = (function () {
   'use strict';
 
   const info = {

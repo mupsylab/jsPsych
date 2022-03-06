@@ -1,4 +1,5 @@
-jspsych.plugins["same-different-image"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["same-different-image"] = (function () {
   'use strict';
 
   const info = {

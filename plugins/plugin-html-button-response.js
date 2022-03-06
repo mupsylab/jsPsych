@@ -1,4 +1,5 @@
-jspsych.plugins["html-button-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["html-button-response"] = (function () {
   'use strict';
 
   const info = {

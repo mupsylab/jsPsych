@@ -1,4 +1,5 @@
-jspsych.plugins["image-slider-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["image-slider-response"] = (function () {
   'use strict';
 
   const info = {

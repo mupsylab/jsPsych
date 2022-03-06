@@ -1,4 +1,5 @@
-jspsych.plugins["image-keyboard-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["image-keyboard-response"] = (function () {
   'use strict';
 
   const info = {

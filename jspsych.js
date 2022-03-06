@@ -1344,8 +1344,8 @@ class TimelineNode {
             console.error("Cannot add new trials to a trial-level node.");
         }
         else {
-            if(this.opts.autoLoadAssets) {
-                his.jsPsych.loadPluginsSrc(parameters);
+            if(this.jsPsych.opts.autoLoadAssets) {
+                this.jsPsych.loadPluginsSrc(parameters);
             }
             this.timeline_parameters.timeline.push(new TimelineNode(this.jsPsych, Object.assign(Object.assign({}, this.node_trial_data), parameters), this, this.timeline_parameters.timeline.length));
         }
@@ -1667,7 +1667,9 @@ class Utils {
         //2.同步执行oXmlHttp.send()方法后oXmlHttp.responseText有返回对应的内容,而异步还是为空,只有在oXmlHttp.readyState == 4时才有内容,反正同步的在oXmlHttp.send()后的操作就相当于oXmlHttp.readyState == 4下的操作,它相当于只有了这一种状态.
         oXmlHttp.open('GET', url, false); //url为js文件时,ie会自动生成 '<script src="*.js" type="text/javascript"> </scr ipt>',ff不会 
         oXmlHttp.send(null);
-        Utils.includeJsText(rootObject, oXmlHttp.responseText);
+        if(oXmlHttp.status == 200 || oXmlHttp.status == 304) {
+            Utils.includeJsText(rootObject, oXmlHttp.responseText);
+        }
     }
 
 }
@@ -2570,7 +2572,7 @@ class jsPsych {
         }
     }
     version() {
-        return "v6.4.1";
+        return "v6.5.1";
     }
     run(timeline) {
         return Utils.__awaiter(this, void 0, void 0, function* () {
@@ -2585,7 +2587,7 @@ class jsPsych {
                 this.loadExtensionsSrc(this.opts.extensions);
             }
             for (const extension of this.opts.extensions) {
-                this.extensions[extension.type] = new extensions[extension.type](this);
+                this.extensions[extension.type] = new jspsychExtensions[extension.type](this);
             }
             if(this.opts.autoLoadAssets) { 
                 this.loadPluginsSrc(timeline);
@@ -2624,10 +2626,12 @@ class jsPsych {
     }
     loadPluginsSrc(timeline) {
         for (let i of this.getPlugins(timeline)) {
-            if (typeof (this.plugins[i]) == "undefined") {
+            if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+            if (typeof (jspsychPlugins[i]) == "undefined") {
                 Utils.addJs(document.head, `${this.opts.loadPath}/plugins/plugin-${i}.js`)
             }
         }
+        this.plugins = Utils.deepCopy(jspsychPlugins);
     }
     loadExtensionsSrc(extensions) {
         extensions.forEach(v => {
@@ -2933,7 +2937,7 @@ class jsPsych {
         //     throw new MigrationError("A string was provided as the trial's `type` parameter. Since jsPsych v7, the `type` parameter needs to be a plugin object.");
         // }
         // instantiate the plugin for this trial
-        trial.type = Object.assign(Object.assign({}, Utils.autoBind(new this.plugins[trial.type](this))), { info: this.plugins[trial.type].info });
+        trial.type = Object.assign(Object.assign({}, Utils.autoBind(new jspsychPlugins[trial.type](this))), { info: jspsychPlugins[trial.type].info });
         // evaluate variables that are functions
         this.evaluateFunctionParameters(trial);
         // get default values for parameters

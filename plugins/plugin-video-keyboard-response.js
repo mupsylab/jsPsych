@@ -1,4 +1,5 @@
-jspsych.plugins["video-keyboard-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["video-keyboard-response"] = (function () {
   'use strict';
 
   const info = {

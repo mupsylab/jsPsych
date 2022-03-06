@@ -1,4 +1,5 @@
-jspsych.plugins["browser-check"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["browser-check"] = (function () {
     'use strict';
 
     /*! *****************************************************************************

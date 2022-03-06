@@ -1,4 +1,5 @@
-jspsych.plugins["initialize-microphone"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["initialize-microphone"] = (function () {
     'use strict';
 
     /*! *****************************************************************************

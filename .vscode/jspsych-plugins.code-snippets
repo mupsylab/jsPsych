@@ -1,0 +1,17 @@
+{
+	// Place your jspsych-self 工作区 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"jspsych-plugins": {
+		"scope": "javascript,typescript",
+		"prefix": "plugin",
+		"body": [
+			"\"${1|animation,audio-button-response,audio-keyboard-response,audio-slider-response,browser-check,call-function,canvas-button-response,canvas-keyboard-response,canvas-slider-response,categorize-animation,categorize-html,categorize-image,cloze,external-html,free-sort,fullscreen,html-audio-response,html-button-response,html-keyboard-response,html-slider-response,iat-html,iat-image,image-button-response,image-keyboard-response,image-slider-response,initialize-microphone,instructions,maxdiff,preload,psychophysics,reconstruction,resize,same-different-html,same-different-image,serial-reaction-time,serial-reaction-time-mouse,sketchpad,survey,survey-html-form,survey-likert,survey-multi-choice,survey-multi-select,survey-text,video-button-response,video-keyboard-response,video-slider-response,virtual-chinrest,visual-search-circle,webgazer-calibrate,webgazer-init-camera,webgazer-validate|}\""
+		],
+		"description": "jspsych-plugins"
+	}
+}

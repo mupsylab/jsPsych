@@ -1,4 +1,5 @@
-jspsych.plugins["external-html"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["external-html"] = (function () {
   'use strict';
 
   const info = {

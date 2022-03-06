@@ -1,4 +1,5 @@
-jspsych.plugins["iat-image"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["iat-image"] = (function () {
   'use strict';
 
   const info = {

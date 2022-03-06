@@ -1,4 +1,5 @@
-jspsych.plugins["survey-likert"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["survey-likert"] = (function () {
   'use strict';
 
   const info = {

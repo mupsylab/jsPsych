@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="../dist/jspsych.js"></script>
-  <script src="../dist/plugin-html-button-response.js"></script>
-  <script src="../dist/extension-mouse-tracking.js"></script>
-  <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
-  <style>
+  <script src="../jspsych.js"></script>
+  <link rel="stylesheet" href="../jspsych.css">  <style>
     .jspsych-btn {margin-bottom: 10px;}
   </style>
 </head>
 <body></body>
 <script>
 
-  var jsPsych = initJsPsych({
+  var jspsych = new jsPsych({
     extensions: [
-      { type: jsPsychExtensionMouseTracking, params: {minimum_sample_time: 0} }
+      { type: "mouse-tracking", params: {minimum_sample_time: 0} }
     ]
   });
 
   
 
   var show_data = {
-    type: jsPsychHtmlButtonResponse,
+    type: ["html-button-response"],
     stimulus: function() {
-      var trial_data = jsPsych.data.get().filter({task: 'draw'}).last(1).values();
+      var trial_data = jspsych.data.get().filter({task: 'draw'}).last(1).values();
       var trial_json = JSON.stringify(trial_data, null, 2);
       return `<p style="margin-bottom:0px;"><strong>Trial data:</strong></p>
         <pre style="margin-top:0px;text-align:left;">${trial_json}</pre>`;
@@ -32,12 +29,12 @@
   };
 
   var trial = {
-    type: jsPsychHtmlButtonResponse,
+    type: ["html-button-response"],
     stimulus: '<div id="target" style="width:250px; height: 250px; background-color: #333; margin: auto;"></div>',
     choices: ['Done'],
     prompt: "<p>Move your mouse around inside the square.</p>",
     extensions: [
-      {type: jsPsychExtensionMouseTracking, params: {targets: ['#target']}}
+      {type: "mouse-tracking", params: {targets: ['#target']}}
     ],
     data: {
       task: 'draw'
@@ -45,13 +42,13 @@
   };
 
   var replay = {
-    type: jsPsychHtmlButtonResponse,
+    type: ["html-button-response"],
     stimulus: '<div id="target" style="width:250px; height: 250px; background-color: #333; margin: auto; position: relative;"></div>',
     choices: ['Done'],
     prompt: "<p>Here's the recording of your mouse movements</p>",
     on_load: function(){
-      var mouseMovements = jsPsych.data.get().last(1).values()[0].mouse_tracking_data;
-      var targetRect = jsPsych.data.get().last(1).values()[0].mouse_tracking_targets['#target'];
+      var mouseMovements = jspsych.data.get().last(1).values()[0].mouse_tracking_data;
+      var targetRect = jspsych.data.get().last(1).values()[0].mouse_tracking_targets['#target'];
       
       var startTime = performance.now();
 
@@ -83,8 +80,8 @@
     }
   };
 
-  if (typeof jsPsych !== "undefined") {
-    jsPsych.run([start, trial_loop]);
+  if (typeof jspsych !== "undefined") {
+    jspsych.run([trial_loop]);
   } else {
     document.body.innerHTML = '<div style="text-align:center; margin-top:50%; transform:translate(0,-50%);">You must be online to view the plugin demo.</div>';
   }

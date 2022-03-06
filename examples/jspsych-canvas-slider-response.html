@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-canvas-slider-response.js"></script>
-    <link rel="stylesheet" href="../dist/jspsych.css" />
-  </head>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">  </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+    var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -27,7 +25,7 @@
     }
 
     var trial_1 = {
-      type: jsPsychCanvasSliderResponse,
+      type: "canvas-slider-response",
       stimulus: twoSquares,
       labels: ['0','10'],
       canvas_size: [200, 500],
@@ -46,7 +44,7 @@
     }
 
     var trial_2 = {
-      type: jsPsychCanvasSliderResponse,
+      type: "canvas-slider-response",
       stimulus: function(c) {
         colors = ['darkred', 'cyan'];
         twoSquaresColors(c, colors);
@@ -63,7 +61,7 @@
       }
     };
 
-    jsPsych.run([trial_1, trial_2]);
+    jspsych.run([trial_1, trial_2]);
 
   </script>
 </html>

@@ -1,4 +1,5 @@
-jspsych.plugins["audio-button-response"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["audio-button-response"] = (function () {
   'use strict';
 
   const info = {

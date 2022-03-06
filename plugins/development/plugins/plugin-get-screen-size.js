@@ -1,4 +1,5 @@
-jspsych.plugins["get-screen-size"] = (function () {
+if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+jspsychPlugins["get-screen-size"] = (function () {
     'use strict';
 
     const info = {

@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-canvas-keyboard-response.js"></script>
-    <link rel="stylesheet" href="../dist/jspsych.css" />
-  </head>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">  </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+    var jspsych = new jsPsych({
       on_finish: function() {
-          jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -31,7 +29,7 @@
     }
 
     var trial_1 = {
-      type: jsPsychCanvasKeyboardResponse,
+      type: "canvas-keyboard-response",
       stimulus: drawRect,
       choices: ['e','i'],
       prompt: '<p>Is this a circle or a rectangle? Press "e" for circle and "i" for rectangle.</p>',
@@ -39,7 +37,7 @@
     };
 
     var trial_2 = {
-      type: jsPsychCanvasKeyboardResponse,
+      type: "canvas-keyboard-response",
       stimulus: drawCirc,
       choices: ['e','i'],
       prompt: '<p>Is this a circle or a rectangle? Press "e" for circle and "i" for rectangle.</p>',
@@ -50,22 +48,22 @@
     // the jsPsych.timelineVariable() function can be used inside your stimulus function
     var trial_procedure = {
       timeline: [{
-        type: jsPsychCanvasKeyboardResponse,
+        type: "canvas-keyboard-response",
         stimulus: function(c) {
           var ctx = c.getContext('2d');
           ctx.beginPath();
-          ctx.fillStyle = jsPsych.timelineVariable('color');
+          ctx.fillStyle = jspsych.timelineVariable('color');
           ctx.fillRect(
-            jsPsych.timelineVariable('upper_left_x'),
-            jsPsych.timelineVariable('upper_left_y'),
-            jsPsych.timelineVariable('width'),
-            jsPsych.timelineVariable('height')
+            jspsych.timelineVariable('upper_left_x'),
+            jspsych.timelineVariable('upper_left_y'),
+            jspsych.timelineVariable('width'),
+            jspsych.timelineVariable('height')
           );
           ctx.stroke();
         },
         choices: ['r','b'],
         prompt: '<p>What color is the rectangle? Press "r" for red and "b" for blue.</p>',
-        data: {color: jsPsych.timelineVariable('color')}
+        data: {color: jspsych.timelineVariable('color')}
       }],
       timeline_variables: [
         {upper_left_x: 150, upper_left_y: 100, height: 100, width: 150, color: 'red'},
@@ -74,7 +72,7 @@
       ]
     };
 
-    jsPsych.run([trial_1, trial_2, trial_procedure]);
+    jspsych.run([trial_1, trial_2, trial_procedure]);
 
   </script>
 </html>
