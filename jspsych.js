@@ -2493,7 +2493,7 @@ class jsPsych {
             extensions: [],
             loadPath: "",
             autoLoadAssets: true,
-            allowRestart: true
+            allowRestart: false
         }, options);
 
         this.opts = options;
@@ -2572,7 +2572,7 @@ class jsPsych {
         }
     }
     version() {
-        return "v6.5.1";
+        return "v6.5.2";
     }
     run(timeline) {
         return Utils.__awaiter(this, void 0, void 0, function* () {

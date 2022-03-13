@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <script src="../../jspsych.js"></script>
-    <link rel="stylesheet" href="../../jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
 </head>
 
 <body></body>
@@ -12,9 +12,8 @@
         on_finish: function () {
             jspsych.data.displayData();
         },
-        loadPath: "."
+        loadPath: ""
     });
-    Utils.addJs(document.head, "/plugins/plugin-preload.js");
     jspsych.run([{
         type: "preload",
         images: ["img/Cir.png"]
@@ -35,7 +34,7 @@
             obj_type: "image",
             v_angle: 1.5,
             content: "img/Cir.png",
-            bias_angle: 0.8,
+            bias_angle: 1,
             show_start_time: 1000,
             show_end_time: 1100
         }, {
@@ -43,7 +42,7 @@
             v_angle: 1.2,
             content: "测试",
             color: "white",
-            bias_angle: 0.8,
+            bias_angle: 1,
             show_start_time: 1000,
             show_end_time: 1100
         }],
