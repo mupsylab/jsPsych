@@ -1384,7 +1384,7 @@ class GitHub {
             `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
             false
         )
-        for (k in this.header) {
+        for (let k in this.header) {
             res.setRequestHeader(k, this.header[k]);
         }
         res.send();
@@ -1405,7 +1405,7 @@ class GitHub {
             `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
             false
         )
-        for (k in this.header) {
+        for (let k in this.header) {
             res.setRequestHeader(k, this.header[k]);
         }
         res.send(JSON.stringify(formd));
@@ -1423,7 +1423,7 @@ class GitHub {
             `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
             false
         );
-        for (k in this.header) {
+        for (let k in this.header) {
             res.setRequestHeader(k, this.header[k]);
         }
         res.send();
@@ -1437,7 +1437,7 @@ class GitHub {
             `https://api.github.com/repos/${this.owner}/${this.repo}/commits`,
             false
         );
-        for (k in this.header) {
+        for (let k in this.header) {
             res.setRequestHeader(k, this.header[k]);
         }
         res.send();
@@ -1455,7 +1455,7 @@ class GitHub {
             `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
             false
         )
-        for (k in this.header) {
+        for (let k in this.header) {
             res.setRequestHeader(k, this.header[k]);
         }
         res.send(JSON.stringify(formd));
@@ -1477,7 +1477,7 @@ class GitHub {
             `https://api.github.com/repos/${this.owner}/${this.repo}/contents${this.path}/${fileName}`,
             false
         );
-        for (k in this.header) {
+        for (let k in this.header) {
             res.setRequestHeader(k, this.header[k]);
         }
         res.send(JSON.stringify(formd));
