@@ -124,6 +124,10 @@ jspsychPlugins["SALT"] = (function () {
       this.jspsych = jspsych;
     }
     trial(display_element, trial) {
+      let stim_info = {
+        word: "",
+        img: ""
+      };
       class visual_stimulus {
         constructor(stim) {
           Object.assign(this, stim)
@@ -152,10 +156,10 @@ jspsychPlugins["SALT"] = (function () {
           let pW = Utils.getPixe(trial.distance, this.v_angle, trial.screen.pixelW, trial.screen.actualW),
             pH = Utils.getPixe(trial.distance, this.v_angle, trial.screen.pixelH, trial.screen.actualH);
 
-          ctx.moveTo(trial.canvas_width / 2, trial.canvas_height / 2 - pW);
-          ctx.lineTo(trial.canvas_width / 2, trial.canvas_height / 2 + pW);
-          ctx.moveTo(trial.canvas_width / 2 - pH, trial.canvas_height / 2);
-          ctx.lineTo(trial.canvas_width / 2 + pH, trial.canvas_height / 2);
+          ctx.moveTo(trial.canvas_width / 2, trial.canvas_height / 2 - pW / 2);
+          ctx.lineTo(trial.canvas_width / 2, trial.canvas_height / 2 + pW / 2);
+          ctx.moveTo(trial.canvas_width / 2 - pH / 2, trial.canvas_height / 2);
+          ctx.lineTo(trial.canvas_width / 2 + pH / 2, trial.canvas_height / 2);
           ctx.stroke();
         }
       }
@@ -167,6 +171,7 @@ jspsychPlugins["SALT"] = (function () {
         show() {
           let img = new Image();
           img.src = this.content;
+          stim_info["img"] = this.content;
 
           let pW = Utils.getPixe(
             trial.distance, this.v_angle, trial.screen.pixelW, trial.screen.actualW, this.bias_angle
@@ -193,6 +198,7 @@ jspsychPlugins["SALT"] = (function () {
           super(stim);
         }
         show() {
+          stim_info["word"] = this.content;
           let pH = Utils.getPixe(
             trial.distance, this.v_angle, trial.screen.pixelH, trial.screen.actualH, this.bias_angle
           )
@@ -258,7 +264,9 @@ jspsychPlugins["SALT"] = (function () {
         // gather the data to store for the trial
         var trial_data = {
           rt: info ? info.rt : null,
-          response: info ? info.key : null
+          response: info ? info.key : null,
+          stim_word: stim_info["word"],
+          stim_img: stim_info["img"]
         };
 
         // clear the display
