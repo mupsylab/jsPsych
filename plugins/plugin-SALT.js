@@ -278,9 +278,10 @@ jspsychPlugins["SALT"] = (function () {
 
       const start_time = performance.now();
       var intervalID = setInterval(step, 1);
+      var keyboardListener;
       this.jspsych.pluginAPI.setTimeout(() => {
         if (trial.choices != "NO_KEYS") {
-          var keyboardListener = this.jspsych.pluginAPI.getKeyboardResponse({
+          keyboardListener = this.jspsych.pluginAPI.getKeyboardResponse({
             callback_function: end_trial,
             valid_responses: trial.choices,
             rt_method: "performance",
