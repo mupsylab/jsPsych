@@ -831,19 +831,19 @@ class DataCollection {
     filterColumns(columns) {
         let keys = typeof columns !== "undefined" ? columns : [];
         if (keys.length < 1) {
-            return DataCollection(trials);
+            return DataCollection(this.trials);
         } else {
             var new_trials = [];
-            for (var i in trials) {
+            let old_trials = this.trials;
+            for (var i in this.trials) {
                 var new_trial = {};
                 keys.forEach(function (key) {
-                    new_trial[key] = trials[i][key];
+                    new_trial[key] = old_trials[i][key];
                 })
                 new_trials.push(new_trial);
             }
-            return DataCollection(new_trials);
+            return new DataCollection(new_trials);
         }
-
     }
     ignore(columns) {
         if (!Array.isArray(columns)) {
@@ -2572,7 +2572,7 @@ class jsPsych {
         }
     }
     version() {
-        return "v6.5.2";
+        return "v6.5.3";
     }
     run(timeline) {
         return Utils.__awaiter(this, void 0, void 0, function* () {
