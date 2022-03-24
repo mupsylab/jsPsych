@@ -264,7 +264,7 @@ jspsychPlugins["SALT"] = (function () {
         // gather the data to store for the trial
         var trial_data = {
           rt: info ? info.rt : null,
-          response: info ? info.key : null,
+          key_press: info ? info.key : null,
           stim_word: stim_info["word"],
           stim_img: stim_info["img"]
         };
