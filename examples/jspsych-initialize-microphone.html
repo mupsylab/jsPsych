@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="../dist/jspsych.js"></script>
-  <script src="../dist/plugin-initialize-microphone.js"></script>
-  <script src="../dist/plugin-html-audio-response.js"></script>
-  <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+  <script src="../jspsych.js"></script>
+  <link rel="stylesheet" href="../jspsych.css">
 </head>
 <body></body>
 <script>
 
-  var jsPsych = initJsPsych();
+var jspsych = new jsPsych();
 
   let init_mic = {
-    type: jsPsychInitializeMicrophone,
+    type: "initialize-microphone",
   }
 
   let ar = {
-    type: jsPsychHtmlAudioResponse,
+    type: "html-audio-response",
     stimulus: '<div style="width:400px; height: 400px; background-color: red;"></div>',
     allow_playback: true,
     on_finish: (data) => {
@@ -24,7 +22,7 @@
     }
   }
 
-  jsPsych.run([init_mic, ar]);
+  jspsych.run([init_mic, ar]);
 
 </script>
 </html>

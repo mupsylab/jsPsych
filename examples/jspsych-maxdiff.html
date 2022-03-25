@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-maxdiff.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
     var maxdiff_trial = {
-      type: jsPsychMaxdiff,
+      type: "maxdiff",
       alternatives: ['apple', 'orange', 'pear', 'banana'],
       labels: ['Most Preferred', 'Least Preferred'],
       preamble: '<p> Please select your <b>most preferred</b> and <b>least preferred</b> fruits. </p>'
     };
 
     var maxdiff_trial_random_required = {
-      type: jsPsychMaxdiff,
+      type: "maxdiff",
       alternatives: ['strawberry', 'watermelon', 'kiwi', 'grapefruit'],
       labels: ['Most Preferred', 'Least Preferred'],
       preamble: '<p> Please select your <b>most preferred</b> and <b>least preferred</b> fruits. </p>',
@@ -30,7 +29,7 @@
       required: true
     };
 
-    jsPsych.run([maxdiff_trial, maxdiff_trial_random_required]);
+    jspsych.run([maxdiff_trial, maxdiff_trial_random_required]);
 
   </script>
 </html>

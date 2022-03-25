@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-preload.js"></script>
-    <script src="../dist/plugin-html-button-response.js"></script>
-    <script src="../dist/plugin-image-button-response.js"></script>
-    <script src="../dist/plugin-audio-button-response.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -21,7 +17,7 @@
     // through the on_error and on_success trial parameters
     // automatically preload all stimuli files based on the timeline 
     var auto_preload_trial = {
-      type: jsPsychPreload,
+      type: "preload",
       auto_preload: true,
       on_error: function(file) {
         console.log('Error: ',file);
@@ -32,7 +28,7 @@
     };
 
     var start = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: '<p>The previous trial was an automatic preload trial.</p>'+
         '<p>This trial loaded all stimuli files that can be automatically preloaded<br>based on the main jsPsych experiment timeline.</p>'+
         '<p>In this example experiment, there are two trials in which the stimuli can be automatically preloaded.</p>'+
@@ -41,20 +37,20 @@
     };
 
     var image_trial = {
-      type: jsPsychImageButtonResponse,
+      type: "image-button-response",
       stimulus: 'img/happy_face_1.jpg',
       choices: ['Happy', 'Sad'],
       stimulus_width: 400
     };
 
     var audio_trial = {
-      type: jsPsychAudioButtonResponse,
+      type: "audio-button-response",
       stimulus: ['sound/speech_green.mp3'],
       choices: ['Continue']
     };
 
     var start_fail_example_1 = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: '<p>The next trial is a manual preload trial.</p>'+
         '<p>Manual preloading allows you to load specific files, for instance if you want to load files in batches,<br>'+
         'or if the stimuli cannot be automatically preloaded (because you are using timeline variables or dynamic parameters).</p>'+
@@ -66,7 +62,7 @@
     // manually preload specific files
     // continue with the experiment even if one or more files fails to load
     var preload_fail_example_1 = {
-      type: jsPsychPreload,
+      type: "preload",
       images: ['BAD_IMAGE_NAME_1','BAD_IMAGE_NAME_2','BAD_IMAGE_NAME_3'],
       audio: ['sound/speech_green.mp3','sound/speech_red.mp3'],  
       message: '<p>Please wait while the files load.</p>',
@@ -81,12 +77,12 @@
     };
 
     var after_fail_example_1 = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: function() {
         var message;
         // if continue_after_error is true in your preload trial, then you can check the trial
         // data to see if preloading was successful
-        var preload_trial_data = jsPsych.data.getLastTrialData().values()[0];
+        var preload_trial_data = jspsych.data.getLastTrialData().values()[0];
         if (preload_trial_data.success) {
           message = '<p>All files loaded successfully!</p>';
         } else {
@@ -99,7 +95,7 @@
     };
 
     var start_fail_example_2 = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: '<p>The next trial is another manual preload trial.</p>'+
         '<p>It has been set up with bad file names, so it will also fail.</p>'+
         '<p>This time the <i>continue_after_error</i> parameter is set to <i>false</i>, so the experiment will stop with an error message.</p>'+
@@ -110,7 +106,7 @@
     // manually preload specific files 
     // if loading fails, then stop with a detailed error message
     var preload_fail_example_2 = {
-      type: jsPsychPreload,
+      type: "preload",
       images: ['img/happy_face_2.jpg','img/happy_face_3.jpg','img/sad_face_1.jpg','img/sad_face_2.jpg','img/sad_face_3.jpg','img/sad_face_4.jpg',
       'img/1.gif','img/2.gif','img/3.gif','img/4.gif','img/5.gif','img/6.gif','img/7.gif','img/8.gif','img/9.gif','img/10.gif','img/11.gif','img/12.gif',
       'BAD_IMAGE_NAME'],
@@ -129,12 +125,12 @@
     };
 
     var after_fail_example_2 = {
-      type: jsPsychHtmlButtonResponse,
+      type: "html-button-response",
       stimulus: '<p>All files loaded successfully!</p>',
       choices: ['End']
     };
 
-    jsPsych.run([auto_preload_trial, start, image_trial, audio_trial,
+    jspsych.run([auto_preload_trial, start, image_trial, audio_trial,
       start_fail_example_1, preload_fail_example_1, after_fail_example_1, 
       start_fail_example_2, preload_fail_example_2, after_fail_example_2]);
 

@@ -656,7 +656,7 @@ class DataColumn {
 
 class DataCollection {
     // private function to save text file on local drive
-    #saveTextToFile(textstr, filename) {
+    static saveTextToFile(textstr, filename) {
         const blobToSave = new Blob([textstr], {
             type: "text/plain",
         });
@@ -677,7 +677,7 @@ class DataCollection {
     // this function based on code suggested by StackOverflow users:
     // http://stackoverflow.com/users/64741/zachary
     // http://stackoverflow.com/users/317/joseph-sturtevant
-    #JSON2CSV(objArray) {
+    static JSON2CSV(objArray) {
         const array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
         let line = "";
         let result = "";
@@ -869,7 +869,7 @@ class DataCollection {
         return names;
     }
     csv() {
-        return this.#JSON2CSV(this.trials);
+        return DataCollection.JSON2CSV(this.trials);
     }
     json(pretty = false) {
         if (pretty) {
@@ -889,7 +889,7 @@ class DataCollection {
         else {
             throw new Error('Invalid format specified for localSave. Must be "json" or "csv".');
         }
-        this.#saveTextToFile(data_string, filename);
+        DataCollection.saveTextToFile(data_string, filename);
     }
     select(column) {
         const values = [];
@@ -1369,7 +1369,7 @@ class GitHub {
             }
         }
     }
-    getID = function (experID = "", length = 4, suffix = "") {
+    getID(experID = "", length = 4, suffix = "") {
         let name = `${experID ? experID : ""}`;
         let i = 1;
         while (this.isFileExist(name + i.toString().padStart(length, "0") + suffix + ".csv")) {
@@ -1377,7 +1377,7 @@ class GitHub {
         }
         return i;
     }
-    isFileExist = function (fileName) {
+    isFileExist(fileName) {
         let res = new XMLHttpRequest();
         res.open(
             "GET",
@@ -1394,7 +1394,7 @@ class GitHub {
             return false;
         }
     }
-    delete = function (fileName, message) {
+    delete(fileName, message) {
         let formd = {
             message: message,
             sha: this.getFileSha(fileName)
@@ -1416,7 +1416,7 @@ class GitHub {
             return true;
         }
     }
-    getFileSha = function (fileName) {
+    getFileSha(fileName) {
         let res = new XMLHttpRequest();
         res.open(
             "GET",
@@ -1430,7 +1430,7 @@ class GitHub {
         // console.log(res);
         return JSON.parse(res.responseText)["sha"]
     }
-    getLastSha = function () {
+    getLastSha() {
         let res = new XMLHttpRequest();
         res.open(
             "GET",
@@ -1443,7 +1443,7 @@ class GitHub {
         res.send();
         return JSON.parse(res.responseText)[0].sha;
     }
-    update = function (fileName, message, content) {
+    update(fileName, message, content) {
         let formd = {
             message: message,
             content: btoa(content),
@@ -1573,7 +1573,7 @@ class Utils {
             return obj;
         }
     }
-    static getAllProperties = object => {
+    static getAllProperties(object) {
         const properties = new Set();
 
         do {
@@ -1585,7 +1585,7 @@ class Utils {
         return properties;
     };
 
-    static autoBind = (self, { include, exclude } = {}) => {
+    static autoBind(self, { include, exclude } = {}) {
         const filter = key => {
             const match = pattern => typeof pattern === 'string' ? key === pattern : pattern.test(key);
 
@@ -1622,14 +1622,14 @@ class Utils {
             step((generator = generator.apply(thisArg, _arguments || [])).next());
         });
     }
-    static getXmlHttpRequest = function () {
+    static getXmlHttpRequest() {
         if (window.XMLHttpRequest) // 除了IE外的其它浏览器
             return new XMLHttpRequest();
         else if (window.ActiveXObject) // IE 
             return new ActiveXObject("MsXml2.XmlHttp");
     }
     //导入内容
-    static includeJsText = function (rootObject, jsText) {
+    static includeJsText(rootObject, jsText) {
         if (rootObject != null) {
             var oScript = document.createElement("script");
             oScript.type = "text/javascript";
@@ -1642,7 +1642,7 @@ class Utils {
         }
     }
     //导入文件 异步加载
-    static includeJsSrc = function (rootObject, fileUrl) {
+    static includeJsSrc(rootObject, fileUrl) {
         if (rootObject != null) {
             var oScript = document.createElement("script");
             oScript.type = "text/javascript";
@@ -1651,7 +1651,7 @@ class Utils {
         }
     }
     //同步加载
-    static addJs = function (rootObject, url) {
+    static addJs(rootObject, url) {
         var oXmlHttp = Utils.getXmlHttpRequest();
         oXmlHttp.onreadystatechange = function () {//其实当在第二次调用导入js时,因为在浏览器当中存在这个*.js文件了,它就不在访问服务器,也就不在执行这个方法了,这个方法也只有设置成异步时才用到
             if (oXmlHttp.readyState == 4) { //当执行完成以后(返回了响应)所要执行的
@@ -2414,25 +2414,25 @@ class Random {
 }
 
 class jsPsych {
-    static ParameterType = (function () {
-        let ParameterType = {}
-        ParameterType[ParameterType["BOOL"] = 0] = "BOOL";
-        ParameterType[ParameterType["STRING"] = 1] = "STRING";
-        ParameterType[ParameterType["INT"] = 2] = "INT";
-        ParameterType[ParameterType["FLOAT"] = 3] = "FLOAT";
-        ParameterType[ParameterType["FUNCTION"] = 4] = "FUNCTION";
-        ParameterType[ParameterType["KEY"] = 5] = "KEY";
-        ParameterType[ParameterType["KEYS"] = 6] = "KEYS";
-        ParameterType[ParameterType["SELECT"] = 7] = "SELECT";
-        ParameterType[ParameterType["HTML_STRING"] = 8] = "HTML_STRING";
-        ParameterType[ParameterType["IMAGE"] = 9] = "IMAGE";
-        ParameterType[ParameterType["AUDIO"] = 10] = "AUDIO";
-        ParameterType[ParameterType["VIDEO"] = 11] = "VIDEO";
-        ParameterType[ParameterType["OBJECT"] = 12] = "OBJECT";
-        ParameterType[ParameterType["COMPLEX"] = 13] = "COMPLEX";
-        ParameterType[ParameterType["TIMELINE"] = 14] = "TIMELINE";
-        return ParameterType;
-    })();
+    // static ParameterType = (function () {
+    //     let ParameterType = {}
+    //     ParameterType[ParameterType["BOOL"] = 0] = "BOOL";
+    //     ParameterType[ParameterType["STRING"] = 1] = "STRING";
+    //     ParameterType[ParameterType["INT"] = 2] = "INT";
+    //     ParameterType[ParameterType["FLOAT"] = 3] = "FLOAT";
+    //     ParameterType[ParameterType["FUNCTION"] = 4] = "FUNCTION";
+    //     ParameterType[ParameterType["KEY"] = 5] = "KEY";
+    //     ParameterType[ParameterType["KEYS"] = 6] = "KEYS";
+    //     ParameterType[ParameterType["SELECT"] = 7] = "SELECT";
+    //     ParameterType[ParameterType["HTML_STRING"] = 8] = "HTML_STRING";
+    //     ParameterType[ParameterType["IMAGE"] = 9] = "IMAGE";
+    //     ParameterType[ParameterType["AUDIO"] = 10] = "AUDIO";
+    //     ParameterType[ParameterType["VIDEO"] = 11] = "VIDEO";
+    //     ParameterType[ParameterType["OBJECT"] = 12] = "OBJECT";
+    //     ParameterType[ParameterType["COMPLEX"] = 13] = "COMPLEX";
+    //     ParameterType[ParameterType["TIMELINE"] = 14] = "TIMELINE";
+    //     return ParameterType;
+    // })();
     constructor(options) {
         this.extensions = {};
         this.plugins = {};
@@ -2572,7 +2572,7 @@ class jsPsych {
         }
     }
     version() {
-        return "v6.5.3";
+        return "v6.5.4";
     }
     run(timeline) {
         return Utils.__awaiter(this, void 0, void 0, function* () {
@@ -3256,3 +3256,22 @@ class jsPsych {
         localStorage.removeItem("jspsych-data");
     }
 }
+jsPsych.ParameterType = (function () {
+    let ParameterType = {}
+    ParameterType[ParameterType["BOOL"] = 0] = "BOOL";
+    ParameterType[ParameterType["STRING"] = 1] = "STRING";
+    ParameterType[ParameterType["INT"] = 2] = "INT";
+    ParameterType[ParameterType["FLOAT"] = 3] = "FLOAT";
+    ParameterType[ParameterType["FUNCTION"] = 4] = "FUNCTION";
+    ParameterType[ParameterType["KEY"] = 5] = "KEY";
+    ParameterType[ParameterType["KEYS"] = 6] = "KEYS";
+    ParameterType[ParameterType["SELECT"] = 7] = "SELECT";
+    ParameterType[ParameterType["HTML_STRING"] = 8] = "HTML_STRING";
+    ParameterType[ParameterType["IMAGE"] = 9] = "IMAGE";
+    ParameterType[ParameterType["AUDIO"] = 10] = "AUDIO";
+    ParameterType[ParameterType["VIDEO"] = 11] = "VIDEO";
+    ParameterType[ParameterType["OBJECT"] = 12] = "OBJECT";
+    ParameterType[ParameterType["COMPLEX"] = 13] = "COMPLEX";
+    ParameterType[ParameterType["TIMELINE"] = 14] = "TIMELINE";
+    return ParameterType;
+})();

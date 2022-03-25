@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-serial-reaction-time-mouse.js"></script>
-    <link rel="stylesheet" href="../dist/jspsych.css" />
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -36,19 +35,19 @@
     var colors = ["#f3c300", "#875692", "#f38400", "#a1caf1", "#be0032", "#c2b280", "#848482", "#008856"];
     var deltas = [[-1,-1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1,0], [1,1]];
     var order = [0,1,2,3,4,5,6,7];
-    order = jsPsych.randomization.shuffle(order);
+    order = jspsych.randomization.shuffle(order);
     var current_idx = -1;
 
     function getNextPredictor(){
       current_idx++;
       if(current_idx >= order.length){
-        order = jsPsych.randomization.shuffle(order);
+        order = jspsych.randomization.shuffle(order);
         current_idx = 0;
       }
-      var predictor = jsPsych.randomization.sampleWithoutReplacement(locations, 1)[0];
+      var predictor = jspsych.randomization.sampleWithoutReplacement(locations, 1)[0];
       if(last_target !== null){
         while(predictor[0] == last_target[0] && predictor[1] == last_target[1]){
-          predictor = jsPsych.randomization.sampleWithoutReplacement(locations, 1)[0];
+          predictor = jspsych.randomization.sampleWithoutReplacement(locations, 1)[0];
         }
       }
       last_predictor = predictor;
@@ -71,7 +70,7 @@
     var timeline_2 = {
       timeline: [
         {
-          type: jsPsychSerialReactionTimeMouse,
+          type: "serial-reaction-time-mouse",
           grid: grid,
           target: getNextPredictor,
           target_color: getColor,
@@ -79,7 +78,7 @@
           allow_nontarget_responses: true
         },
         {
-          type: jsPsychSerialReactionTimeMouse,
+          type: "serial-reaction-time-mouse",
           grid: grid,
           target: getNextTarget,
           target_color: getColor,
@@ -89,7 +88,7 @@
       repetitions: 6,
     };
 
-    jsPsych.run([timeline_2]);
+    jspsych.run([timeline_2]);
 
   </script>
 </html>

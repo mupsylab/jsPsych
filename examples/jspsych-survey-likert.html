@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-survey-likert.js"></script>
-    <link rel="stylesheet" href="../dist/jspsych.css" />
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
     var scale = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
 
     var likert_trial = {
-        type: jsPsychSurveyLikert,
+        type: "survey-likert",
         questions: [
           {prompt: "I like vegetables.", name: 'Vegetables', labels: scale, required: true},
           {prompt: "I like fruit.", name: 'Fruit', labels: scale, required: true}
@@ -25,7 +24,7 @@
     };
 
     var likert_trial_random_order = {
-        type: jsPsychSurveyLikert,
+        type: "survey-likert",
         questions: [
           {prompt: "Question 1", labels: scale},
           {prompt: "Question 2", labels: scale},
@@ -37,7 +36,7 @@
         scale_width: 500
     };
 
-    jsPsych.run([likert_trial, likert_trial_random_order]);
+    jspsych.run([likert_trial, likert_trial_random_order]);
     
   </script>
 </html>

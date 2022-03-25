@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-sketchpad.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: () => {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
     var trial = {
-      type: jsPsychSketchpad,
+      type: "sketchpad",
       prompt: '<p>Draw an apple!</p>',
       prompt_location: 'abovecanvas',
       canvas_width: 300,
@@ -25,7 +24,7 @@
     }
 
     var trial2 = {
-      type: jsPsychSketchpad,
+      type: "sketchpad",
       prompt: '<p>Circle the mouth using red. Circle the eyes using blue.</p>',
       prompt_location: 'abovecanvas',
       stroke_color_palette: ['red', 'blue'],
@@ -35,7 +34,7 @@
       canvas_height: 252
     }
     
-    jsPsych.run([trial, trial2]);
+    jspsych.run([trial, trial2]);
 
   </script>
 </html>

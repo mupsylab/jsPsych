@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-html-button-response.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-  var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
     on_finish: function() {
-      jsPsych.data.displayData();
+      jspsych.data.displayData();
     }
   });
 
   var timeline = [];
 
   timeline.push({
-    type: jsPsychHtmlButtonResponse,
+    type: "html-button-response",
     stimulus: '<p style="color: red; font-size: 48px; font-weight: bold;">GREEN</p>',
     choices: ['Green', 'Blue', 'Red'],
     prompt: "<p>What color is this word?</p>"
   });
 
   timeline.push({
-    type: jsPsychHtmlButtonResponse,
+    type: "html-button-response",
     stimulus: '<p style="color: green; font-size: 48px; font-weight: bold;">GREEN</p>',
     choices: ['Green', 'Blue', 'Red'],
     stimulus_duration: 1000,
@@ -32,7 +31,7 @@
   });
 
   timeline.push({
-    type: jsPsychHtmlButtonResponse,
+    type: "html-button-response",
     stimulus: '<p style="color: blue; font-size: 48px; font-weight: bold;">RED</p>',
     choices: ['Green', 'Blue', 'Red'],
     trial_duration: 2000,
@@ -40,7 +39,7 @@
     prompt: "<p>What color is this word? (trial ends after 2s)</p>"
   });
 
-  jsPsych.run(timeline);
+  jspsych.run(timeline);
 
   </script>
 </html>

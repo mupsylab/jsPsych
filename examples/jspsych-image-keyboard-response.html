@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-image-keyboard-response.js"></script>
-    <script src="../dist/plugin-preload.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
     // all images are used in standard trials that can be automatically preloaded (as well as being used in trials 
     // that use timeline variables), so we can preload all image files with the auto_preload option
     var preload = {
-      type: jsPsychPreload,
+      type: "preload",
       auto_preload: true
     };
 
@@ -26,8 +24,8 @@
     // In some browsers, the first time the images are shown, the <img> method (render_on_canvas: false) will produce a brief 
     // blank screen (white flash) between images that are presented consecutively with no post_trial_gap between them.
     var trial = {
-      type: jsPsychImageKeyboardResponse,
-      stimulus: jsPsych.timelineVariable('stim'),
+      type: "image-keyboard-response",
+      stimulus: jspsych.timelineVariable('stim'),
       trial_duration: 300,
       choices: "NO_KEYS",
       prompt: '<p>Watch the faces.</p>',
@@ -49,14 +47,14 @@
     };
 
     var trial_1 = {
-      type: jsPsychImageKeyboardResponse,
+      type: "image-keyboard-response",
       stimulus: 'img/happy_face_1.jpg',
       choices: ['y','n'],
       prompt: '<p>Have you seen this face before? Press y or n.</p>'
     };
 
     var trial_2 = {
-      type: jsPsychImageKeyboardResponse,
+      type: "image-keyboard-response",
       stimulus: 'img/happy_face_2.jpg',
       choices: ['y','n'],
       trial_duration: 5000,
@@ -64,7 +62,7 @@
     };
 
     var trial_3 = {
-      type: jsPsychImageKeyboardResponse,
+      type: "image-keyboard-response",
       stimulus: 'img/happy_face_3.jpg',
       choices: "NO_KEYS",
       trial_duration: 2000,
@@ -72,7 +70,7 @@
     };
 
     var trial_4 = {
-      type: jsPsychImageKeyboardResponse,
+      type: "image-keyboard-response",
       stimulus: 'img/happy_face_4.jpg',
       choices: ['y','n'],
       stimulus_width: 400,
@@ -80,7 +78,7 @@
       prompt: '<p>Have you seen this face before? Press y or n.</p><p>(Stimulus_width set to a smaller value and maintain_aspect_ratio set to false.)</p>'
     };
 
-    jsPsych.run([preload, trial_proc, trial_1, trial_2, trial_3, trial_4]);
+    jspsych.run([preload, trial_proc, trial_1, trial_2, trial_3, trial_4]);
 
   </script>
 </html>

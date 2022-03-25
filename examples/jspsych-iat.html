@@ -2,19 +2,15 @@
 <html>
   <head>
     <title>IAT Example</title>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-iat-html.js"></script>
-    <script src="../dist/plugin-iat-image.js"></script>
-    <script src="../dist/plugin-html-keyboard-response.js"></script>
-    <script src="../dist/plugin-preload.js"></script>
-    <link href="../packages/jspsych/css/jspsych.css" rel="stylesheet">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -23,12 +19,12 @@
         'img/age/yf1.jpg','img/age/yf4.jpg','img/age/yf5.jpg','img/age/ym2.jpg','img/age/ym3.jpg','img/age/ym5.jpg'];
 
     var preload = {
-      type: jsPsychPreload,
+      type: "preload",
       images: images
     };
 
     var welcome_block = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: '<p>Welcome to the Age Task. In this study you will ' +
       'complete an Implicit Association Test (IAT) in which you ' +
       'will be asked to sort pictures and words into groups as ' +
@@ -37,7 +33,7 @@
     };
 
     var category_block = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: '<p>Next, you will use the "e" and "i" computer keys ' + 'to categorize items into groups as fast as you can. ' +
       'These are the four groups and the items that belong to each:<br><br>' +
       '<strong>Good</strong>:<br>' + 'Fabulous, Excitement, Glorious, Cheerful, Cherish, ' +
@@ -55,7 +51,7 @@
     };
 
     var instructions_block = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: "<div style='position: absolute; top: 18%; left: 20%'><p>Press e for:<br><strong>OLD</strong></p></div>" +
       "<div style='position: absolute; top: 18%; right: 20%'><p>Press i for:<br><strong>YOUNG</strong></p></div>" +
       "<div style='position: relative; top: 42%; margin-left: auto; margin-right: auto'>Put a left finger on the <strong>e</strong> key for items that belong to the Old People category. Put a right finger on the " +
@@ -69,9 +65,9 @@
     var trial_block = {
       timeline: [
         {
-          type: jsPsychIatImage,
-          stimulus: jsPsych.timelineVariable('stimulus'),
-          stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+          type: "iat-image",
+          stimulus: jspsych.timelineVariable('stimulus'),
+          stim_key_association: jspsych.timelineVariable('stim_key_association'),
           html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
           bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
           force_correct_key_press: true,
@@ -104,7 +100,7 @@
     };
 
     var instructions_block2 = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: "<div style='position: absolute; top: 18%; left: 20%'>Press E for:<br><strong>BAD</strong></div>" +
       "<div style='position: absolute; top: 18%; right: 20%'>Press I for:<br><strong>GOOD</strong></div>" +
       "<div style='position: relative; top: 42%; margin-left: auto; margin-right: auto'>Put a left finger on the <strong>e</strong> key for items that " +
@@ -119,9 +115,9 @@
     var trial_block2 = {
       timeline: [
         {
-          type: jsPsychIatHtml,
-          stimulus: jsPsych.timelineVariable('stimulus'),
-          stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+          type: "iat-html",
+          stimulus: jspsych.timelineVariable('stimulus'),
+          stim_key_association: jspsych.timelineVariable('stim_key_association'),
           html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
           bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
           force_correct_key_press: true,
@@ -158,7 +154,7 @@
     };
 
     var instructions_block3 = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: "<div style='position: absolute; top: 18%; left: 20%'>Press e for:<br> " +
       "<strong>BAD</strong><br>" + "or<br>" + "<strong>OLD</strong></div>" + "<div style='position: absolute; top: 18%; right: 20%'>" +
       "Press i for:<br>" + "<strong>GOOD</strong><br>" + "or<br>" + "<strong>YOUNG</strong></div>" +
@@ -173,9 +169,9 @@
     var trial_block3 = {
       timeline: [
         {
-          type: jsPsych.timelineVariable('type'),
-          stimulus: jsPsych.timelineVariable('stimulus'),
-          stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+          type: jspsych.timelineVariable('type'),
+          stimulus: jspsych.timelineVariable('stimulus'),
+          stim_key_association: jspsych.timelineVariable('stim_key_association'),
           html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
           bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
           force_correct_key_press: true,
@@ -190,41 +186,41 @@
         }
       ],
       timeline_variables: [
-        {type: jsPsychIatImage, stimulus: "img/age/of1.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/of2.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/of3.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/om1.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/om2.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/om3.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/yf1.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/yf4.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/yf5.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/ym2.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/ym3.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/ym5.jpg", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Humiliate", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Evil", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Grief", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Yucky", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Detest", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Poison", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Abuse", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Despise", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Fabulous", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Excitement", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Glorious", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Cheerful", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Cherish", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Enjoy", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Delightful", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Joyous", stim_key_association: "right"}
+        {type: "iat-image", stimulus: "img/age/of1.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/of2.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/of3.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/om1.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/om2.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/om3.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/yf1.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/yf4.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/yf5.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/ym2.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/ym3.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/ym5.jpg", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Humiliate", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Evil", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Grief", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Yucky", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Detest", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Poison", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Abuse", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Despise", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Fabulous", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Excitement", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Glorious", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Cheerful", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Cherish", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Enjoy", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Delightful", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Joyous", stim_key_association: "right"}
       ],
       randomize_order: true,
       repetitions: 1
     };
 
     var instructions_block4 = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: "<div style='position: absolute; top: 18%; left: 20%'>Press e for:<br> " +
       "<strong>BAD</strong><br>" + "or<br>" + "<strong>OLD</strong></div>" + "<div style='position: absolute; top: 18%; right: 20%'>" +
       "Press i for:<br>" + "<strong>GOOD</strong><br>" + "or<br>" + "<strong>YOUNG</strong></div>" +
@@ -239,10 +235,10 @@
     var trial_block4 = {
       timeline: [
           {
-            type: jsPsych.timelineVariable('type'),
-            is_html: jsPsych.timelineVariable('is_html'),
-            stimulus: jsPsych.timelineVariable('stimulus'),
-            stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+            type: jspsych.timelineVariable('type'),
+            is_html: jspsych.timelineVariable('is_html'),
+            stimulus: jspsych.timelineVariable('stimulus'),
+            stim_key_association: jspsych.timelineVariable('stim_key_association'),
             html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
             bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
             force_correct_key_press: true,
@@ -257,41 +253,41 @@
           }
         ],
         timeline_variables: [
-          {type: jsPsychIatImage, stimulus: "img/age/of1.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/of2.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/of3.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/om1.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/om2.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/om3.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf1.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf4.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf5.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym2.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym3.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym5.jpg", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Humiliate", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Evil", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Grief", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Yucky", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Detest", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Poison", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Abuse", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Despise", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Fabulous", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Excitement", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Glorious", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Cheerful", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Cherish", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Enjoy", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Delightful", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Joyous", stim_key_association: "right"}
+          {type: "iat-image", stimulus: "img/age/of1.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/of2.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/of3.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/om1.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/om2.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/om3.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/yf1.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/yf4.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/yf5.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/ym2.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/ym3.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/ym5.jpg", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Humiliate", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Evil", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Grief", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Yucky", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Detest", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Poison", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Abuse", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Despise", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Fabulous", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Excitement", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Glorious", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Cheerful", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Cherish", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Enjoy", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Delightful", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Joyous", stim_key_association: "right"}
         ],
         randomize_order: true,
         repetitions: 2
       };
 
       var instructions_block5 = {
-        type: jsPsychHtmlKeyboardResponse,
+        type: "html-keyboard-response",
         stimulus: "<div style='position: absolute; top: 18%; left: 20%'>Press e for:<br>" + "<strong>YOUNG</strong></div>" +
         "<div style='position: absolute; top: 18%; right: 20%'>Press i for:<br>" + "<strong>OLD</strong></div>" +
         "<div style='position: relative; top: 42%; margin-left: auto; margin-right: auto'>Watch out, the labels have changed positions!<br>" +
@@ -304,10 +300,10 @@
       var trial_block5 = { 
         timeline: [
           {
-            type: jsPsychIatImage,
+            type: "iat-image",
             is_html: false,
-            stimulus: jsPsych.timelineVariable('stimulus'),
-            stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+            stimulus: jspsych.timelineVariable('stimulus'),
+            stim_key_association: jspsych.timelineVariable('stim_key_association'),
             html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
             bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
             force_correct_key_press: true,
@@ -322,25 +318,25 @@
           }
         ],
         timeline_variables: [
-          {type: jsPsychIatImage, stimulus: "img/age/of1.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/of2.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/of3.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/om1.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/om2.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/om3.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf1.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf4.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf5.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym2.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym3.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym5.jpg", stim_key_association: "left"}
+          {type: "iat-image", stimulus: "img/age/of1.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/of2.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/of3.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/om1.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/om2.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/om3.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/yf1.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/yf4.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/yf5.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/ym2.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/ym3.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/ym5.jpg", stim_key_association: "left"}
         ],
         randomize_order: true,
         repetitions: 2
       };
 
       var instructions_block6 = {
-        type: jsPsychHtmlKeyboardResponse,
+        type: "html-keyboard-response",
         stimulus: "<div style='position: absolute; top: 18%; left: 20%'>Press e for:<br>" + "<strong>BAD</strong><br>" + "or<br>" +
         "<strong>YOUNG</strong></div>" + "<div style='position: absolute; top: 18%; right: 20%'>Press i for:<br>" + "<strong>GOOD</strong><br>" + "or<br>" +
         "<strong>OLD</strong></div>" +
@@ -354,9 +350,9 @@
       var trial_block6 = {
         timeline: [
         {
-          type: jsPsych.timelineVariable('type'),
-          stimulus: jsPsych.timelineVariable('stimulus'),
-          stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+          type: jspsych.timelineVariable('type'),
+          stimulus: jspsych.timelineVariable('stimulus'),
+          stim_key_association: jspsych.timelineVariable('stim_key_association'),
           html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
           bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
           force_correct_key_press: true,
@@ -371,41 +367,41 @@
         }
         ],
         timeline_variables: [
-          {type: jsPsychIatImage, stimulus: "img/age/of1.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/of2.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/of3.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/om1.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/om2.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/om3.jpg", stim_key_association: "right"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf1.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf4.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/yf5.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym2.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym3.jpg", stim_key_association: "left"},
-          {type: jsPsychIatImage, stimulus: "img/age/ym5.jpg", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Humiliate", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Evil", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Grief", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Yucky", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Detest", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Poison", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Abuse", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Despise", stim_key_association: "left"},
-          {type: jsPsychIatHtml, stimulus: "Fabulous", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Excitement", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Glorious", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Cheerful", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Cherish", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Enjoy", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Delightful", stim_key_association: "right"},
-          {type: jsPsychIatHtml, stimulus: "Joyous", stim_key_association: "right"}
+          {type: "iat-image", stimulus: "img/age/of1.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/of2.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/of3.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/om1.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/om2.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/om3.jpg", stim_key_association: "right"},
+          {type: "iat-image", stimulus: "img/age/yf1.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/yf4.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/yf5.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/ym2.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/ym3.jpg", stim_key_association: "left"},
+          {type: "iat-image", stimulus: "img/age/ym5.jpg", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Humiliate", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Evil", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Grief", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Yucky", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Detest", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Poison", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Abuse", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Despise", stim_key_association: "left"},
+          {type: "iat-html", stimulus: "Fabulous", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Excitement", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Glorious", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Cheerful", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Cherish", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Enjoy", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Delightful", stim_key_association: "right"},
+          {type: "iat-html", stimulus: "Joyous", stim_key_association: "right"}
         ],
         randomize_order: true,
         repetitions: 1
       };
 
       var instructions_block7 = {
-        type: jsPsychHtmlKeyboardResponse,
+        type: "html-keyboard-response",
         stimulus: "<div style='position: absolute; top: 18%; left: 20%'>Press e for:<br>" + "<strong>Bad</strong><br>" + "or<br>" +
         "<strong>Young People</strong></div>" + "<div style='position: absolute; top: 18%; right: 20%'>Press i for:<br>" + "<strong>Good</strong><br>" + "or<br>" +
         "<strong>Old People</strong></div>" +
@@ -421,10 +417,10 @@
     var trial_block7 = {
       timeline: [
       {
-        type: jsPsych.timelineVariable('type'),
-        is_html: jsPsych.timelineVariable('is_html'),
-        stimulus: jsPsych.timelineVariable('stimulus'),
-        stim_key_association: jsPsych.timelineVariable('stim_key_association'),
+        type: jspsych.timelineVariable('type'),
+        is_html: jspsych.timelineVariable('is_html'),
+        stimulus: jspsych.timelineVariable('stimulus'),
+        stim_key_association: jspsych.timelineVariable('stim_key_association'),
         html_when_wrong: '<span style="color: red; font-size: 80px">X</span>',
         bottom_instructions: '<p>If you press the wrong key, a red X will appear. Press the other key to continue</p>',
         force_correct_key_press: true,
@@ -439,47 +435,47 @@
       }
       ],
       timeline_variables: [
-        {type: jsPsychIatImage, stimulus: "img/age/of1.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/of2.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/of3.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/om1.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/om2.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/om3.jpg", stim_key_association: "right"},
-        {type: jsPsychIatImage, stimulus: "img/age/yf1.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/yf4.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/yf5.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/ym2.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/ym3.jpg", stim_key_association: "left"},
-        {type: jsPsychIatImage, stimulus: "img/age/ym5.jpg", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Humiliate", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Evil", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Grief", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Yucky", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Detest", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Poison", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Abuse", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Despise", stim_key_association: "left"},
-        {type: jsPsychIatHtml, stimulus: "Fabulous", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Excitement", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Glorious", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Cheerful", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Cherish", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Enjoy", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Delightful", stim_key_association: "right"},
-        {type: jsPsychIatHtml, stimulus: "Joyous", stim_key_association: "right"}
+        {type: "iat-image", stimulus: "img/age/of1.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/of2.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/of3.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/om1.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/om2.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/om3.jpg", stim_key_association: "right"},
+        {type: "iat-image", stimulus: "img/age/yf1.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/yf4.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/yf5.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/ym2.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/ym3.jpg", stim_key_association: "left"},
+        {type: "iat-image", stimulus: "img/age/ym5.jpg", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Humiliate", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Evil", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Grief", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Yucky", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Detest", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Poison", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Abuse", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Despise", stim_key_association: "left"},
+        {type: "iat-html", stimulus: "Fabulous", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Excitement", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Glorious", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Cheerful", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Cherish", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Enjoy", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Delightful", stim_key_association: "right"},
+        {type: "iat-html", stimulus: "Joyous", stim_key_association: "right"}
       ],
       randomize_order: true,
       repetitions: 2
     };
 
       var debrief_block = {
-        type: jsPsychHtmlKeyboardResponse,
+        type: "html-keyboard-response",
         stimulus: function() {
           // calculate D-score from https://faculty.washington.edu/agg/pdf/GB&N.JPSP.2003.pdf
           // first find mean RT
-          var bad_old = jsPsych.data.get().filter({iat_type: 'bad-old'}).filterCustom(function(x) { return x.rt < 10000 });
+          var bad_old = jspsych.data.get().filter({iat_type: 'bad-old'}).filterCustom(function(x) { return x.rt < 10000 });
           var mean_correct_responses_bad_old = bad_old.filter({correct: true}).select('rt').mean();
-          var bad_young = jsPsych.data.get().filter({iat_type: 'bad-young'}).filterCustom(function(x) { return x.rt < 10000 });
+          var bad_young = jspsych.data.get().filter({iat_type: 'bad-young'}).filterCustom(function(x) { return x.rt < 10000 });
           var mean_correct_responses_bad_young = bad_young.filter({correct: true}).select('rt').mean();
 
           // get overall sd
@@ -515,7 +511,7 @@
       timeline.push(trial_block7);
       timeline.push(debrief_block);
 
-      jsPsych.run(timeline);
+      jspsych.run(timeline);
 
   </script>
 </html>

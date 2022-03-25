@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-image-slider-response.js"></script>
-    <script src="../dist/plugin-preload.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       default_iti: 250, 
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -20,7 +18,7 @@
     // there's one additional image ('img/happy_face_4.jpg') that is only used in timeline variables 
     // and will not be automatically preloaded, so this file must be preloaded manually.
     var preload = {
-      type: jsPsychPreload,
+      type: "preload",
       auto_preload: true, 
       images: ['img/happy_face_4.jpg']
     };
@@ -29,8 +27,8 @@
     // In some browsers, the first time the images are shown, the <img> method (render_on_canvas: false) will produce a brief 
     // blank screen (white flash) between images that are presented consecutively with no post_trial_gap between them.
     var trial = {
-      type: jsPsychImageSliderResponse,
-      stimulus: jsPsych.timelineVariable('stim'),
+      type: "image-slider-response",
+      stimulus: jspsych.timelineVariable('stim'),
       trial_duration: 1000,
       labels: ['1 (least happy)', '100 (most happy)'],
       prompt: '<p>How happy is this person on a scale of 1-100?</p><p>(Consecutive images with no post_trial_gap)</p>',
@@ -53,7 +51,7 @@
     };
 
     var trial_1 = {
-      type: jsPsychImageSliderResponse,
+      type: "image-slider-response",
       stimulus: 'img/happy_face_1.jpg',
       labels: ['1 (least happy)', '100 (most happy)'],
       slider_width: 500,
@@ -62,7 +60,7 @@
     };
 
     var trial_2 = {
-      type: jsPsychImageSliderResponse,
+      type: "image-slider-response",
       stimulus: 'img/happy_face_2.jpg',
       labels: ['1 (least happy)', '100 (most happy)'],
       slider_start: 80,
@@ -72,7 +70,7 @@
     };
 
     var trial_3 = {
-      type: jsPsychImageSliderResponse,
+      type: "image-slider-response",
       stimulus: 'img/happy_face_3.jpg',
       labels: ['1 (least happy)', '100 (most happy)'],
       slider_width: 500,
@@ -80,7 +78,7 @@
       stimulus_duration: 1000
     };
 
-    jsPsych.run([preload, trial_proc, trial_1, trial_2, trial_3]);
+    jspsych.run([preload, trial_proc, trial_1, trial_2, trial_3]);
 
   </script>
 </html>

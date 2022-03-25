@@ -2,28 +2,25 @@
 <html>
   <head>
     <script src="js/snap.svg-min.js"></script>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-html-keyboard-response.js"></script>
-    <script src="../dist/plugin-visual-search-circle.js"></script>
-    <script src="../dist/plugin-preload.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
     var preload_images = {
-      type: jsPsychPreload,
+      type: "preload",
       images: ['img/1.gif', 'img/2.gif', 'img/3.gif', 'img/backwardN.gif', 'img/normalN.gif', 'img/fixation.gif']
     };
 
     var intro = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: '<p>You will see a set of Ns on the following screens. Press j if there is a backwards N. If there is no backwards N press f.</p><p>Press any key to begin.</p>'
     };
 
@@ -44,7 +41,7 @@
     };
 
     var trials = {
-      type: jsPsychVisualSearchCircle,
+      type: "visual-search-circle",
       target: 'img/backwardN.gif',
       foil: 'img/normalN.gif',
       fixation_image: 'img/fixation.gif',
@@ -53,13 +50,13 @@
 
     // example using arbitrary image array
     var trial_4 = {
-      type: jsPsychVisualSearchCircle,
+      type: "visual-search-circle",
       stimuli: ['img/backwardN.gif', 'img/normalN.gif', 'img/1.gif', 'img/2.gif', 'img/3.gif'],
       fixation_image: 'img/fixation.gif',
       target_present: true
     };
 
-    jsPsych.run([preload_images, intro, trials, trial_4]);
+    jspsych.run([preload_images, intro, trials, trial_4]);
 
   </script>
 </html>

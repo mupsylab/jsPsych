@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-image-button-response.js"></script>
-    <script src="../dist/plugin-preload.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -20,7 +18,7 @@
     // all images are used in standard trials that can be automatically preloaded (as well as being used in trials 
     // that use timeline variables), so we can preload all image files with the auto_preload option
     timeline.push({
-      type: jsPsychPreload,
+      type: "preload",
       auto_preload: true
     });
 
@@ -28,8 +26,8 @@
     // In some browsers, the first time the images are shown, the <img> method (render_on_canvas: false) will produce a brief 
     // blank screen (white flash) between images that are presented consecutively with no post_trial_gap between them.
     var trial = {
-      type: jsPsychImageButtonResponse,
-      stimulus: jsPsych.timelineVariable('stim'),
+      type: "image-button-response",
+      stimulus: jspsych.timelineVariable('stim'),
       trial_duration: 1000,
       choices: ['Happy', 'Sad'],
       prompt: '<p>What emotion is this person showing?</p><p>(1s duration, consecutive images with no post_trial_gap)</p>',
@@ -50,7 +48,7 @@
     });
 
     timeline.push({
-      type: jsPsychImageButtonResponse,
+      type: "image-button-response",
       stimulus: 'img/happy_face_1.jpg',
       choices: ['Happy', 'Sad'],
       prompt: "<p>What emotion is this person showing?</p><p>(Wait for response)</p>",
@@ -58,7 +56,7 @@
     });
 
     timeline.push({
-      type: jsPsychImageButtonResponse,
+      type: "image-button-response",
       stimulus: 'img/happy_face_2.jpg',
       stimulus_height: 400,
       choices: ['Happy', 'Sad'],
@@ -68,7 +66,7 @@
     });
 
     timeline.push({
-      type: jsPsychImageButtonResponse,
+      type: "image-button-response",
       stimulus: 'img/happy_face_3.jpg',
       stimulus_width: 600,
       choices: ['Happy', 'Sad'],
@@ -79,7 +77,7 @@
     });
 
     timeline.push({
-      type: jsPsychImageButtonResponse,
+      type: "image-button-response",
       stimulus: 'img/happy_face_4.jpg',
       choices: ['Happy', 'Sad'],
       stimulus_width: 400,
@@ -88,7 +86,7 @@
       post_trial_gap: 500
     });
 
-    jsPsych.run(timeline);
+    jspsych.run(timeline);
 
   </script>
 </html>

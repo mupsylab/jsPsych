@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-survey-text.js"></script>
-    <link rel="stylesheet" href="../packages/jspsych/css/jspsych.css">
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
     var survey_page1 = {
-      type: jsPsychSurveyText,
+      type: "survey-text",
       questions: [
         {prompt: 'How old are you?', columns: 3, required: true, name: 'Age'},
         {prompt: 'Where were you born?', placeholder: 'City, State/Province, Country', columns: 50, name: 'BirthLocation'}
@@ -24,13 +23,13 @@
     };
 
     var survey_page2 = {
-      type: jsPsychSurveyText,
+      type: "survey-text",
       questions: [
         {prompt: 'Tell me about your day', placeholder: 'How did it start?', rows:10, columns: 50}
       ]
     };
 
-    jsPsych.run([survey_page1, survey_page2]);
+    jspsych.run([survey_page1, survey_page2]);
 
   </script>
 </html>

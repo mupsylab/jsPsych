@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="../dist/jspsych.js"></script>
-    <script src="../dist/plugin-html-keyboard-response.js"></script>
-    <script src="../dist/plugin-reconstruction.js"></script>
-    <link rel="stylesheet" href="../dist/jspsych.css" />
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
   </head>
   <body></body>
   <script>
 
-    var jsPsych = initJsPsych({
+var jspsych = new jsPsych({
       on_finish: function() {
-        jsPsych.data.displayData();
+        jspsych.data.displayData();
       }
     });
 
@@ -25,7 +23,7 @@
     };
 
     var pre_test = {
-      type: jsPsychHtmlKeyboardResponse,
+      type: "html-keyboard-response",
       stimulus: '<div style="display: block; margin: auto; height: 300px; width: 300px; position: relative;">'+
         '<div style="display: block; position: absolute; top: '+(150 - 210/2)+'px; left:'+(150 - 210/2)+'px; background-color: #000000; '+
         'width: 210px; height: 210px;"></div></div>',
@@ -35,11 +33,11 @@
     };
 
     var test = {
-      type: jsPsychReconstruction,
+      type: "reconstruction",
       stim_function: sample_function,
       starting_value: 0.5,
     };
 
-    jsPsych.run([pre_test, test]);
+    jspsych.run([pre_test, test]);
   </script>
 </html>
