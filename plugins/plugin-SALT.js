@@ -111,6 +111,16 @@ jspsychPlugins["SALT"] = (function () {
         pretty_name: "Choices",
         default: "ALL_KEYS",
       },
+      condition: {
+        type: jsPsych.ParameterType.STRING,
+        pretty_name: 'Matching status',
+        default: ''
+      },
+      shape_association: {
+        type: jsPsych.ParameterType.STRING,
+        pretty_name: 'Graphic meaning',
+        default: ''
+      },
       response_start_time: {
         type: jsPsych.ParameterType.INT,
         pretty_name: "Response start time",
@@ -262,11 +272,14 @@ jspsychPlugins["SALT"] = (function () {
         }
         clearInterval(intervalID);
         // gather the data to store for the trial
+        console.log(trial);
         var trial_data = {
           rt: info ? info.rt : null,
           key_press: info ? info.key : null,
           stim_word: stim_info["word"],
-          stim_img: stim_info["img"]
+          stim_img: stim_info["img"],
+          condition: trial.condition,
+          shape_association: trial.shape_association,
         };
 
         // clear the display
