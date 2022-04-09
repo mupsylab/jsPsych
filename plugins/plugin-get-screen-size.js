@@ -135,6 +135,37 @@ jspsychPlugins["get-screen-size"] = (function () {
             };
             document.addEventListener("mousemove", resizeevent);
         }
+        simulate(trial, simulation_mode, simulation_options, load_callback) {
+            if (simulation_mode == "data-only") {
+                load_callback();
+                this.simulate_data_only(trial, simulation_options);
+            }
+            if (simulation_mode == "visual") {
+                this.simulate_visual(trial, simulation_options, load_callback);
+            }
+        }
+        create_simulation_data(trial, simulation_options) {
+            const default_data = {
+                screen_width_pixel: window.innerWidth,
+                screen_width_physics: window.innerWidth,
+                screen_height_physics: window.innerHeight,
+                screen_height_pixel: window.innerHeight,
+            };
+            const data = this.jsPsych.pluginAPI.mergeSimulationData(default_data, simulation_options);
+            return data;
+        }
+        simulate_data_only(trial, simulation_options) {
+            const data = this.create_simulation_data(trial, simulation_options);
+            this.jsPsych.finishTrial(data);
+        }
+        simulate_visual(trial, simulation_options, load_callback) {
+            const display_element = this.jsPsych.getDisplayElement();
+            this.trial(display_element, trial);
+            load_callback();
+            if (data.rt !== null) {
+                this.jsPsych.pluginAPI.clickTarget(display_element.querySelector(`#jspsych-get-screen-size-btn`), data.rt);
+            }
+        }
     }
     GetScreenSize.info = info;
 

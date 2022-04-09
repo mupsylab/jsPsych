@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="../jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych.css">
+</head>
+
+<body></body>
+<script>
+
+    var jspsych = new jsPsych({
+        default_ITI: 250,
+        on_finish: function () {
+            jspsych.data.displayData();
+        }
+    });
+
+    var trial = {
+        type: ["psychophysics"],
+        stimuli: [
+            {
+                obj_type: 'text',
+                startX: 'center',
+                startY: 'center',
+                content: 'If the sentence is very long,\nyou can start a new line in this way.',
+                font: "22px 'Arial'",
+                text_color: 'Yellow',
+                // text_space: 50,
+                motion_start_time: 1500,
+                motion_end_time: 3000,
+                vert_pix_frame: -2,
+            }
+        ]
+    }
+
+    var sim_opts = {
+        default: {
+            data: {
+                rt: () => { return jspsych.randomization.sampleExGaussian(600,50,0.02, true) }
+            }
+        },
+        long_trial: {
+            data: {
+                rt: 2000
+            }
+        }
+    }
+
+    jspsych.simulate([trial], "data-only", sim_opts);
+</script>
+
+</html>
