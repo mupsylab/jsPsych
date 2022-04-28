@@ -1,0 +1,26 @@
+{
+  "name": "jspsych-3m",
+  "version": "6.5.2",
+  "description": "Jspsych combines V6 and V7 features",
+  "main": "jspsych.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chuan-Peng-Lab/jsPsych.git"
+  },
+  "keywords": [
+    "jsPsych",
+    "3M"
+  ],
+  "author": "mupsy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chuan-Peng-Lab/jsPsych/issues"
+  },
+  "homepage": "https://github.com/Chuan-Peng-Lab/jsPsych#readme"
+}
