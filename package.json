@@ -1,6 +1,6 @@
 {
   "name": "jspsych-3m",
-  "version": "6.5.2",
+  "version": "6.5.3",
   "description": "Jspsych combines V6 and V7 features",
   "main": "jspsych.js",
   "directories": {
