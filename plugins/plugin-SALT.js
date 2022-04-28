@@ -2,7 +2,7 @@
  * Example plugin template
  */
 
-if(typeof(jspsychPlugins) != "object") { var jspsychPlugins = {} }
+if (typeof (jspsychPlugins) != "object") { var jspsychPlugins = {} }
 jspsychPlugins["SALT"] = (function () {
   'use strict';
 
@@ -104,12 +104,22 @@ jspsychPlugins["SALT"] = (function () {
       trial_duration: {
         type: jsPsych.ParameterType.INT,
         pretty_name: "Trial duration",
-        default: 2000
+        default: 2600
       },
-      choices: {
+      choices_match: {
         type: jsPsych.ParameterType.KEYS,
-        pretty_name: "Choices",
-        default: "ALL_KEYS",
+        pretty_name: "Choices Match",
+        default: ["m"],
+      },
+      choices_mismatch: {
+        type: jsPsych.ParameterType.KEYS,
+        pretty_name: "Choices Mismatch",
+        default: ["n"],
+      },
+      response_start_time: {
+        type: jsPsych.ParameterType.INT,
+        pretty_name: "Response start time",
+        default: 1100
       },
       condition: {
         type: jsPsych.ParameterType.STRING,
@@ -121,11 +131,34 @@ jspsychPlugins["SALT"] = (function () {
         pretty_name: 'Graphic meaning',
         default: ''
       },
-      response_start_time: {
+      feedback: {
+        type: jsPsych.ParameterType.BOOL,
+        default: false
+      },
+      feedback_correct: {
+        type: jsPsych.ParameterType.STRING,
+        default: "<span style='color: green;'>correct</span>"
+      },
+      feedback_wrong: {
+        type: jsPsych.ParameterType.STRING,
+        default: "<span style='color: red;'>error</span>"
+      },
+      feedback_overtime: {
+        type: jsPsych.ParameterType.STRING,
+        default: "<span style='color: yellow;'>too slow</span>"
+      },
+      feedback_duration: {
         type: jsPsych.ParameterType.INT,
-        pretty_name: "Response start time",
-        default: 0
-      }
+        default: 500
+      },
+      stimuli_text: {
+        type: jsPsych.ParameterType.STRING,
+        default: ""
+      },
+      stimuli_img: {
+        type: jsPsych.ParameterType.STRING,
+        default: ""
+      },
     }
   }
 
@@ -161,8 +194,8 @@ jspsychPlugins["SALT"] = (function () {
         }
         show() {
           ctx.beginPath();
-          ctx.lineWidth = this.lineWidth;
-          ctx.strokeStyle = this.color;
+          ctx.lineWidth = this.lineWidth ? this.lineWidth : 5;
+          ctx.strokeStyle = this.color ? this.color : "white";
           let pW = Utils.getPixe(trial.distance, this.v_angle, trial.screen.pixelW, trial.screen.actualW),
             pH = Utils.getPixe(trial.distance, this.v_angle, trial.screen.pixelH, trial.screen.actualH);
 
@@ -213,7 +246,7 @@ jspsychPlugins["SALT"] = (function () {
             trial.distance, this.v_angle, trial.screen.pixelH, trial.screen.actualH, this.bias_angle
           )
           ctx.font = `${pH}px Arual`
-          ctx.fillStyle = this.color;
+          ctx.fillStyle = this.color ? this.color : "white";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle"
 
@@ -245,6 +278,16 @@ jspsychPlugins["SALT"] = (function () {
           alert('You have missed to specify the obj_type property in the ' + (i + 1) + 'th object.');
           return
         }
+        if (!i.content) {
+          switch(i.obj_type) {
+            case "text":
+              i.content = trial.stimuli_text;
+              break;
+            case "image":
+              i.content = trial.stimuli_img;
+              break;
+          }
+        }
         oop_stim.push(new stimulus[i.obj_type](i));
       }
 
@@ -262,17 +305,13 @@ jspsychPlugins["SALT"] = (function () {
 
       // function to end trial when it is time
       var end_trial = (info) => {
-
-        // kill any remaining setTimeout handlers
-        this.jspsych.pluginAPI.clearAllTimeouts();
-
         // kill keyboard listeners
         if (typeof keyboardListener !== 'undefined') {
           this.jspsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
         }
         clearInterval(intervalID);
         // gather the data to store for the trial
-        console.log(trial);
+        // console.log(trial);
         var trial_data = {
           rt: info ? info.rt : null,
           key_press: info ? info.key : null,
@@ -280,11 +319,34 @@ jspsychPlugins["SALT"] = (function () {
           stim_img: stim_info["img"],
           condition: trial.condition,
           shape_association: trial.shape_association,
+          response: info ? 
+            (trial.choices_match.indexOf(info.key) >= 0 & stim_info["word"] == trial.shape_association ? 1 : (
+              trial.choices_mismatch.indexOf(info.key) >= 0 & stim_info["word"] != trial.shape_association ? 1 : 0
+            )) : 0
         };
 
+        if(trial.feedback) {
+          if(trial_data.response == 1) {
+            display_element.innerHTML = trial.feedback_correct;
+          } else if (trial_data.rt == null) {
+            display_element.innerHTML = trial.feedback_overtime;
+          } else {
+            display_element.innerHTML = trial.feedback_wrong;
+          }
+          this.jspsych.pluginAPI.setTimeout(
+            () => { close(trial_data); },
+            trial.feedback_duration
+          );
+        } else {
+          close(trial_data);
+        }
+      };
+
+      var close = (trial_data) => {
         // clear the display
         display_element.innerHTML = '';
-
+        // kill any remaining setTimeout handlers
+        this.jspsych.pluginAPI.clearAllTimeouts();
         // move on to the next trial
         this.jspsych.finishTrial(trial_data);
       };
@@ -293,10 +355,10 @@ jspsychPlugins["SALT"] = (function () {
       var intervalID = setInterval(step, 1);
       var keyboardListener;
       this.jspsych.pluginAPI.setTimeout(() => {
-        if (trial.choices != "NO_KEYS") {
+        if (trial.choices_match != "NO_KEYS" & trial.choices_mismatch != "NO_KEYS") {
           keyboardListener = this.jspsych.pluginAPI.getKeyboardResponse({
             callback_function: end_trial,
-            valid_responses: trial.choices,
+            valid_responses: [].concat(trial.choices_match, trial.choices_mismatch),
             rt_method: "performance",
             persist: false,
             allow_held_key: false,
@@ -304,7 +366,10 @@ jspsychPlugins["SALT"] = (function () {
         }
       }, trial.response_start_time);
       if (trial.trial_duration) {
-        jspsych.pluginAPI.setTimeout(end_trial, trial.trial_duration);
+        this.jspsych.pluginAPI.setTimeout(
+          end_trial,
+          trial.trial_duration
+        );
       }
     };
   }

@@ -14,14 +14,17 @@
         },
         loadPath: ""
     });
-    jspsych.run([{
+    let preload = {
         type: "preload",
         images: ["img/Cir.png"]
-    }, {
+    };
+    let set = {
         type: "get-screen-size",
         prompt: "请放置卡片",
         starting_size: 500
-    }, {
+    };
+    // Detailed parameters
+    let trial1 = {
         type: "SALT",
         stimuli: [{
             obj_type: "cross",
@@ -33,14 +36,14 @@
         }, {
             obj_type: "image",
             v_angle: 1.5,
-            content: "img/Cir.png",
+            // content: "img/Cir.png",
             bias_angle: 1,
             show_start_time: 1000,
             show_end_time: 1100
         }, {
             obj_type: "text",
             v_angle: 1.2,
-            content: "测试",
+            // content: "测试",
             color: "white",
             bias_angle: 1,
             show_start_time: 1000,
@@ -57,8 +60,55 @@
         },
         trial_duration: 2500,
         response_start_time: 1100,
-        choices: ["n", "m"]
-    }]);
+        choices_match: ["n"],
+        choices_mismatch: ["m"],
+        stimuli_text: "文字",
+        stimuli_img: "img/Cir.png",
+        condition: "mismatch",
+        shape_association: "圆形",
+        feedback: true,
+        feedback_correct: "正确",
+        feedback_wrong: "错误",
+        feedback_overtime: "太慢",
+        feedback_duration: 1000
+    }
+    // Minimum available parameters
+    let trial2 = {
+        type: "SALT",
+        stimuli: [{
+            obj_type: "cross",
+            v_angle: 0.5,
+            show_start_time: 500,
+            show_end_time: 1100
+        }, {
+            obj_type: "image",
+            v_angle: 1.5,
+            bias_angle: 1,
+            show_start_time: 1000,
+            show_end_time: 1100
+        }, {
+            obj_type: "text",
+            v_angle: 1.2,
+            bias_angle: 1,
+            show_start_time: 1000,
+            show_end_time: 1100
+        }],
+        screen: function () {
+            return {
+                pixelW: jspsych.data.get().top(1).values()[0].screen_width_pixel,
+                pixelH: jspsych.data.get().top(1).values()[0].screen_height_pixel,
+                actualW: jspsych.data.get().top(1).values()[0].screen_width_physics,
+                actualH: jspsych.data.get().top(1).values()[0].screen_height_physics
+            }
+        },
+        choices_match: ["n"],
+        choices_mismatch: ["m"],
+        stimuli_text: "circular",
+        stimuli_img: "img/Cir.png",
+        condition: "mismatch",
+        shape_association: "circular",
+    }
+    jspsych.run([preload, set, trial1, trial2]);
 </script>
 
 </html>
