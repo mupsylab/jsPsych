@@ -52,10 +52,10 @@
         distance: 500,
         screen: function () {
             return {
-                pixelW: jspsych.data.get().top(1).values()[0].screen_width_pixel,
-                pixelH: jspsych.data.get().top(1).values()[0].screen_height_pixel,
-                actualW: jspsych.data.get().top(1).values()[0].screen_width_physics,
-                actualH: jspsych.data.get().top(1).values()[0].screen_height_physics
+                pixelW: jspsych.data.get().values()[1].screen_width_pixel,
+                pixelH: jspsych.data.get().values()[1].screen_height_pixel,
+                actualW: jspsych.data.get().values()[1].screen_width_physics,
+                actualH: jspsych.data.get().values()[1].screen_height_physics
             }
         },
         trial_duration: 2500,
@@ -95,10 +95,10 @@
         }],
         screen: function () {
             return {
-                pixelW: jspsych.data.get().top(1).values()[0].screen_width_pixel,
-                pixelH: jspsych.data.get().top(1).values()[0].screen_height_pixel,
-                actualW: jspsych.data.get().top(1).values()[0].screen_width_physics,
-                actualH: jspsych.data.get().top(1).values()[0].screen_height_physics
+                pixelW: jspsych.data.get().values()[1].screen_width_pixel,
+                pixelH: jspsych.data.get().values()[1].screen_height_pixel,
+                actualW: jspsych.data.get().values()[1].screen_width_physics,
+                actualH: jspsych.data.get().values()[1].screen_height_physics
             }
         },
         choices_match: ["n"],
