@@ -127,7 +127,7 @@ class CanvasSliderResponsePlugin implements JsPsychPlugin<Info> {
     }
     html += '">';
     html +=
-      '<input type="range" class="jspsych-slider" value="' +
+      '<input type="range" value="' +
       trial.slider_start +
       '" min="' +
       trial.min +

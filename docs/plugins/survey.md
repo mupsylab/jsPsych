@@ -1,6 +1,6 @@
 # survey
 
-Current version: 0.2.0. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-survey/CHANGELOG.md).
+Current version: 0.1.1. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-survey/CHANGELOG.md).
 
 The survey plugin displays one or more questions of different types, on one or more pages that the participant can navigate. This plugin is built on top of the [SurveyJS](https://surveyjs.io/) library.
 
@@ -24,7 +24,7 @@ There is also an [`"html"`](#html) type for adding arbitrary HTML-formatted cont
 This plugin uses an additional stylesheet called `survey.css`. You can load it via: 
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@0.2.0/css/survey.css">
+<link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@0.1.1/css/survey.css">
 ```
 
 If you are using a bundler such as [webpack](https://webpack.js.org/), you can also import it in JavaScript as follows, depending on your bundler configuration:
@@ -178,7 +178,6 @@ placeholder | string | "" | Placeholder text in the text response field.
 textbox_rows | integer | 1 | The number of rows (height) for the response text box. 
 textbox_columns | integer | 40 | The number of columns (width) for the response text box. 
 validation | string | "" | A regular expression used to validate the response.
-input_type | string | "text" | Type for the HTML `<input>` element. The `input_type` parameter must be one of "color", "date", "datetime-local", "email", "month", "number", "password", "range", "tel", "text", "time", "url", "week". If the `textbox_rows` parameter is larger than 1, the `input_type` parameter will be ignored. The `textbox_columns` parameter only affects questions with `input_type` "email", "password", "tel", "url", or "text".
 
 ## Data Generated
 
@@ -198,7 +197,7 @@ This plugin does not yet support [simulation mode](../overview/simulation.md).
 Using the CDN-hosted JavaScript file:
 
 ```js
-<script src="https://unpkg.com/@jspsych/plugin-survey@0.2.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey@0.1.1"></script>
 ```
 
 Using the JavaScript file downloaded from a GitHub release dist archive:

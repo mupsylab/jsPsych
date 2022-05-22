@@ -195,32 +195,6 @@ const info = <const>{
           default: 40,
         },
         /**
-         * Text only: Type for the HTML <input> element.
-         * The `input_type` parameter must be one of "color", "date", "datetime-local", "email", "month", "number", "password", "range", "tel", "text", "time", "url", "week".
-         * If the `textbox_rows` parameter is larger than 1, the `input_type` parameter will be ignored.
-         * The `textbox_columns` parameter only affects questions with `input_type` "email", "password", "tel", "url", or "text".
-         */
-        input_type: {
-          type: ParameterType.SELECT,
-          pretty_name: "Input type",
-          default: "text",
-          options: [
-            "color",
-            "date",
-            "datetime-local",
-            "email",
-            "month",
-            "number",
-            "password",
-            "range",
-            "tel",
-            "text",
-            "time",
-            "url",
-            "week",
-          ],
-        },
-        /**
          * All question types except HTML: value of the correct response. If specified, the response will be compared to this value,
          * and an additional data property "correct" will store response accuracy (true or false).
          */
@@ -346,7 +320,6 @@ const text_params = [
   "placeholder",
   "textbox_rows",
   "textbox_columns",
-  "input_type",
   "correct_response",
 ];
 
@@ -736,6 +709,7 @@ class SurveyPlugin implements JsPsychPlugin<Info> {
 
       case "ranking":
         question = new QuestionRanking(name);
+        question.fallbackToSortableJS = true;
         break;
     }
 
@@ -756,12 +730,6 @@ class SurveyPlugin implements JsPsychPlugin<Info> {
       question.correctAnswer = params.correct_response;
     }
 
-    if (question instanceof QuestionRanking) {
-      // Hack to initialize `question.dragDropRankingChoices` which is only done by the
-      // `endLoadingFromJson()` method
-      question.endLoadingFromJson();
-    }
-
     return question;
   };
 
@@ -770,7 +738,7 @@ class SurveyPlugin implements JsPsychPlugin<Info> {
     SurveyPlugin.validate_question_params(
       params,
       [],
-      ["placeholder", "textbox_rows", "textbox_columns", "input_type", "correct_response"]
+      ["placeholder", "textbox_rows", "textbox_columns", "correct_response"]
     );
 
     SurveyPlugin.set_question_defaults(params, text_params);
@@ -788,7 +756,6 @@ class SurveyPlugin implements JsPsychPlugin<Info> {
       question.cols = params.textbox_columns;
     } else {
       question.size = params.textbox_columns;
-      question.inputType = params.input_type;
     }
     question.defaultValue = "";
 
