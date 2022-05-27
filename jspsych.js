@@ -1500,7 +1500,6 @@ let jsPsych = (function () {
         }
     }
 
-
     class Utils {
         /**
          * @param {string} p1 distance from screen
