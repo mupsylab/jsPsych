@@ -143,9 +143,73 @@ class GitHub {
     }
 }
 
+class Socket {
+    constructor(address, experment_id = "", experment_num = 2) {
+        this.socket_client = new WebSocket(address);
+        this.experment_id = experment_id; // 实验ID
+        this.experment_num = experment_num; // 实验人数
+        this.order = 0, this.room_id = 0; // 房间排序 房间ID
+
+        this.socket_info = array();
+        this.socket_last_info = array();
+
+        this.socket_client.onopen = (e) => {
+            // console.log(e);
+            socket_client.send(JSON.stringify(
+                {
+                    action: "getRoomInfo",
+                    expermentId: this.experment_id,
+                    numberRequirements: this.experment_num
+                }
+            ));
+        };
+        this.socket_client.onclose = (e) => {
+            alert("关闭与服务器的连接，请关闭或者刷新此页面");
+        };
+        this.socket_client.onmessage = (e) => {
+            console.log(e.data);
+            this.socket_info = JSON.parse(e.data);
+            switch(this.socket_info["action"]) {
+                case "getRoomInfo":
+                    this.order = this.socket_info["order"];
+                    this.room_id = this.socket_info["roomId"];
+                    break;
+                case "someoneExit":
+                    alert("对不起，有人退出了实验，请刷新重新开始，谢谢～");
+                    location.reload();
+                    this.someExit();
+                    break;
+                default:
+                    this.getMessage();
+                    break;
+            }
+        };
+        socket_client.onerror = (e) => {
+            alert("连接到服务器出错！请刷新重试");
+        };
+    }
+    // 获取信息
+    getMessage() {
+        return 0;
+    }
+    // 有人退出
+    someExit() {
+        return 0;
+    }
+    // 与上一个调用相比，消息是否更新
+    isMessageUpdate() {
+        if(JSON.stringify(this.socket_info) != JSON.stringify(this.socket_last_info)) {
+            this.socket_last_info = this.socket_info;
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 let jsPsych = (function () {
     'use strict';
-    let version = "v6.6.0";
+    let version = "v6.6.1";
     class KeyboardListenerAPI {
         constructor(getRootElement, areResponsesCaseSensitive = false, minimumValidRt = 0) {
             this.getRootElement = getRootElement;
