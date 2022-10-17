@@ -1,8 +1,8 @@
 # survey-likert
 
-Current version: 1.1.1. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-survey-likert/CHANGELOG.md).
+Current version: 1.1.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-survey-likert/CHANGELOG.md).
 
-The survey-likert plugin displays a set of questions with Likert scale responses. The subject responds by selecting a radio button.
+The survey-likert plugin displays a set of questions with Likert scale responses. The participant responds by selecting a radio button.
 
 ## Parameters
 
@@ -24,7 +24,7 @@ In addition to the [default data collected by all plugins](../overview/plugins.m
 Name | Type | Value
 -----|------|------
 response | object | An object containing the response for each question. The object will have a separate key (variable) for each question, with the first question in the trial being recorded in `Q0`, the second in `Q1`, and so on. The responses are recorded as integers, representing the position selected on the likert scale for that question. If the `name` parameter is defined for the question, then the response object will use the value of `name` as the key for each question. This will be encoded as a JSON string when data is saved using the `.json()` or `.csv()` functions. |
-rt | numeric | The response time in milliseconds for the subject to make a response. The time is measured from when the questions first appear on the screen until the subject's response(s) are submitted. |
+rt | numeric | The response time in milliseconds for the participant to make a response. The time is measured from when the questions first appear on the screen until the participant's response(s) are submitted. |
 question_order | array | An array with the order of questions. For example `[2,0,1]` would indicate that the first question was `trial.questions[2]` (the third item in the `questions` parameter), the second question was `trial.questions[0]`, and the final question was `trial.questions[1]`. This will be encoded as a JSON string when data is saved using the `.json()` or `.csv()` functions. |
 
 ## Install
@@ -32,7 +32,7 @@ question_order | array | An array with the order of questions. For example `[2,0
 Using the CDN-hosted JavaScript file:
 
 ```js
-<script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.1"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.2"></script>
 ```
 
 Using the JavaScript file downloaded from a GitHub release dist archive:

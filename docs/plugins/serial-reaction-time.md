@@ -1,6 +1,6 @@
 # serial-reaction-time
 
-Current version: 1.1.1. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-serial-reaction-time/CHANGELOG.md).
+Current version: 1.1.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-serial-reaction-time/CHANGELOG.md).
 
 The serial reaction time plugin implements a generalized version of the SRT task [(Nissen & Bullemer, 1987)](https://doi.org/10.1016%2F0010-0285%2887%2990002-8). Squares are displayed in a grid-based system on the screen, and one square changes color. The participant presses a key that corresponds to the darkened key. Feedback is optionally displayed, showing the participant which square the key they pressed matches.
 
@@ -21,7 +21,7 @@ In addition to the [parameters available in all plugins](../overview/plugins.md#
 | show_response_feedback | boolean          | false                 | If true, show feedback indicating where the user responded and whether it was correct. |
 | feedback_duration      | numeric          | 200                   | The length of time in milliseconds to show the feedback. |
 | fade_duration          | numeric          | null                  | If a positive number, the target will progressively change color at the start of the trial, with the transition lasting this many milliseconds. |
-| prompt                 | string           | null                  | This string can contain HTML markup. Any content here will be displayed below the stimulus. The intention is that it can be used to provide a reminder about the action the subject is supposed to take (e.g., which keys to press). |
+| prompt                 | string           | null                  | This string can contain HTML markup. Any content here will be displayed below the stimulus. The intention is that it can be used to provide a reminder about the action the participant is supposed to take (e.g., which keys to press). |
 
 ## Data Generated
 
@@ -31,16 +31,16 @@ In addition to the [default data collected by all plugins](../overview/plugins.m
 | --------- | ------- | ---------------------------------------- |
 | grid      | array   | The representation of the grid. This will be encoded as a JSON string when data is saved using the `.json()` or `.csv()` functions. |
 | target    | array   | The representation of the target location on the grid. This will be encoded as a JSON string when data is saved using the `.json()` or `.csv()` functions. |
-| response  | string | Indicates which key the subject pressed. |
-| rt        | numeric | The response time in milliseconds for the subject to make a response. The time is measured from when the second stimulus first appears on the screen until the subject's response. |
-| correct   | boolean | `true` if the subject's response matched the target. |
+| response  | string | Indicates which key the participant pressed. |
+| rt        | numeric | The response time in milliseconds for the participant to make a response. The time is measured from when the second stimulus first appears on the screen until the participant's response. |
+| correct   | boolean | `true` if the participant's response matched the target. |
 
 ## Install
 
 Using the CDN-hosted JavaScript file:
 
 ```js
-<script src="https://unpkg.com/@jspsych/plugin-serial-reaction-time@1.1.1"></script>
+<script src="https://unpkg.com/@jspsych/plugin-serial-reaction-time@1.1.2"></script>
 ```
 
 Using the JavaScript file downloaded from a GitHub release dist archive:

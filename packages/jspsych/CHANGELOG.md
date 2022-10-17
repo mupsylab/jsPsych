@@ -1,5 +1,27 @@
 # jspsych
 
+## 7.3.1
+
+### Patch Changes
+
+- [#2754](https://github.com/jspsych/jsPsych/pull/2754) [`6bf9ea97`](https://github.com/jspsych/jsPsych/commit/6bf9ea973e7a0309dd1f5ea06043a27ea2f991bf) Thanks [@javidalpe](https://github.com/javidalpe)! - Fix preload plugin onerror callback so that it returns proper src information when there are 404 errors.
+
+* [#2811](https://github.com/jspsych/jsPsych/pull/2811) [`28136787`](https://github.com/jspsych/jsPsych/commit/28136787ecdefc4c4620393576b5179b734454f1) Thanks [@jodeleeuw](https://github.com/jodeleeuw)! - Fixed a bug in `randomization.shuffleNoRepeats()` where having an `equalityFunction` that used a logical OR could result in some neighboring elements still evaluating to `true` via `equalityFunction`.
+
+## 7.3.0
+
+### Minor Changes
+
+- [#2649](https://github.com/jspsych/jsPsych/pull/2649) [`a446f504`](https://github.com/jspsych/jsPsych/commit/a446f504ccf0180f44fbdf25fd1ba7e10bfdfe0f) Thanks [@jodeleeuw](https://github.com/jodeleeuw)! - Allow passing `blob:` URLs as input to video plugins.
+
+* [#2664](https://github.com/jspsych/jsPsych/pull/2664) [`57f2ae4c`](https://github.com/jspsych/jsPsych/commit/57f2ae4c697d2434fe548e7f8b376f904b87086e) Thanks [@bjoluc](https://github.com/bjoluc)! - Add support for asynchronous extension `on_finish` methods
+
+- [#2649](https://github.com/jspsych/jsPsych/pull/2649) [`133d85f4`](https://github.com/jspsych/jsPsych/commit/133d85f498f9bacbfb40b9abd8f135f99fbe947c) Thanks [@jodeleeuw](https://github.com/jodeleeuw)! - Add features for recording from video streams to the pluginAPI
+
+### Patch Changes
+
+- [#2683](https://github.com/jspsych/jsPsych/pull/2683) [`0d2808f6`](https://github.com/jspsych/jsPsych/commit/0d2808f648b4eb682c8fbbbbd0637f788f93a08b) Thanks [@jodeleeuw](https://github.com/jodeleeuw)! - `jsPsych.timelineVariable()` will now produce a `console.warn()` when the timeline variable does not exist.
+
 ## 7.2.3
 
 ### Patch Changes

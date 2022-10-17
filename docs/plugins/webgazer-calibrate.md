@@ -1,6 +1,6 @@
 # webgazer-calibrate
 
-Current version: 1.0.1. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-webgazer-calibrate/CHANGELOG.md).
+Current version: 1.0.2. [See version history](https://github.com/jspsych/jsPsych/blob/main/packages/plugin-webgazer-calibrate/CHANGELOG.md).
 
 This plugin can be used to calibrate the [WebGazer extension](../extensions/webgazer.md). For a narrative description of eye tracking with jsPsych, see the [eye tracking overview](../overview/eye-tracking.md). 
 
@@ -11,7 +11,7 @@ In addition to the [parameters available in all plugins](../overview/plugins.md#
 Parameter | Type | Default Value | Description
 ----------|------|---------------|------------
 calibration_points | array | `[[10,10], [10,50], [10,90], [50,10], [50,50], [50,90], [90,10], [90,50], [90,90]]` | Array of points in `[x,y]` coordinates. Specified as a percentage of the screen width and height, from the left and top edge. The default grid is 9 points.
-calibration_mode | string | `'click'` | Can specify `click` to have subjects click on calibration points or `view` to have subjects passively watch calibration points.
+calibration_mode | string | `'click'` | Can specify `click` to have participants click on calibration points or `view` to have participants passively watch calibration points.
 repetitions_per_point | numeric | 1 | The number of times to repeat the sequence of calibration points.
 point_size | numeric | 20 | Diameter of the calibration points in pixels.
 randomize_calibration_order | bool | `false` | Whether to randomize the order of the calibration points.
@@ -36,7 +36,7 @@ This plugin does not yet support [simulation mode](../overview/simulation.md).
 Using the CDN-hosted JavaScript file:
 
 ```js
-<script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@1.0.1"></script>
+<script src="https://unpkg.com/@jspsych/plugin-webgazer-calibrate@1.0.2"></script>
 ```
 
 Using the JavaScript file downloaded from a GitHub release dist archive:
