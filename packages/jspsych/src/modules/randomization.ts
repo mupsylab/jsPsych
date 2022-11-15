@@ -101,46 +101,62 @@ export function shuffle(array: Array<any>) {
   return copy_array;
 }
 
-export function shuffleNoRepeats(arr: Array<any>, equalityTest: (a: any, b: any) => boolean) {
+export function shuffleNoRepeats(arr: Array<any>, getValue: (a: any) => any) {
   if (!Array.isArray(arr)) {
     console.error("First argument to shuffleNoRepeats() must be an array.");
   }
-  if (typeof equalityTest !== "undefined" && typeof equalityTest !== "function") {
-    console.error("Second argument to shuffleNoRepeats() must be a function.");
+  if (typeof getValue !== "undefined" && typeof getValue !== "function") {
+    console.error(
+      "Second argument to jsPsych.randomization.shuffleNoRepeats() must be a function."
+    );
   }
   // define a default equalityTest
-  if (typeof equalityTest == "undefined") {
-    equalityTest = function (a, b) {
-      if (a === b) {
-        return true;
-      } else {
-        return false;
-      }
+  if (typeof getValue == "undefined") {
+    getValue = function (a) {
+      return JSON.stringify(a);
     };
   }
+  // Conversion type
+  const list = {};
+  arr.forEach((v: any, i: number) => {
+    list[getValue(v)] = list[getValue(v)] ? list[getValue(v)] : [0, []];
+    list[getValue(v)][0] += 1;
+    list[getValue(v)][1].push(i);
+  });
 
-  const random_shuffle = shuffle(arr);
-
-  for (let i = 0; i < random_shuffle.length - 1; i++) {
-    if (equalityTest(random_shuffle[i], random_shuffle[i + 1])) {
-      // neighbors are equal, pick a new random neighbor to swap (not the first or last element, to avoid edge cases)
-      let random_pick = Math.floor(Math.random() * (random_shuffle.length - 2)) + 1;
-      // test to make sure the new neighbor isn't equal to the old one
-      while (
-        equalityTest(random_shuffle[i + 1], random_shuffle[random_pick]) ||
-        equalityTest(random_shuffle[i + 1], random_shuffle[random_pick + 1]) ||
-        equalityTest(random_shuffle[i + 1], random_shuffle[random_pick - 1]) ||
-        equalityTest(random_shuffle[i], random_shuffle[random_pick])
-      ) {
-        random_pick = Math.floor(Math.random() * (random_shuffle.length - 2)) + 1;
+  const random_shuffle = (function c(t_arr: Object, re) {
+    let max = "", // Maximum number of repetitions in the array
+      sum = 0, // Remove the maximum quantity and the remaining quantity
+      sarr = Object.keys(t_arr);
+    if (sarr.length < 1) {
+      return re;
+    } // if length of the keys in arr less than 1, means 0, then return. because there is no thing left
+    for (let i in t_arr) {
+      if (!t_arr[max] || t_arr[i][0] > t_arr[max][0]) {
+        max = i;
       }
-      const new_neighbor = random_shuffle[random_pick];
-      random_shuffle[random_pick] = random_shuffle[i + 1];
-      random_shuffle[i + 1] = new_neighbor;
+      sum += t_arr[i][0];
+    } // result {1:2, 3:3} original [1,1,3,3,3]
+    sum -= t_arr[max][0];
+    let rand_index = t_arr[max][0] - sum >= 1 ? max : sarr[Math.floor(Math.random() * sarr.length)]; // get the value in arr
+    if (re.length && rand_index == getValue(arr[re[re.length - 1]])) {
+      // re is the result, make a judgement
+      let tmp = sarr.splice(sarr.indexOf(rand_index), 1)[0]; //
+      rand_index = sarr.length > 0 ? sarr[Math.floor(Math.random() * sarr.length)] : tmp; //
     }
-  }
-
-  return random_shuffle;
+    let asd = t_arr[rand_index][1].splice(Math.floor(Math.random() * t_arr[rand_index][0]), 1);
+    re.push(asd[0]);
+    t_arr[rand_index][0] -= 1;
+    if (t_arr[rand_index][0] < 1) {
+      delete t_arr[rand_index];
+    }
+    return c(t_arr, re);
+  })(list, []);
+  const out = [];
+  random_shuffle.forEach((v) => {
+    out.push(arr[v]);
+  });
+  return out;
 }
 
 export function shuffleAlternateGroups(arr_groups, random_group_order = false) {

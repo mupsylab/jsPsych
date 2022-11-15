@@ -135,13 +135,13 @@ describe("factorial", () => {
 
 describe("shuffleNoRepeats", function () {
   test("should generate a random order with no repeats", function () {
-    var equalityTest = (a, b) => a === b;
+    var getValue = (a) => JSON.stringify(a);
     var toShuffle = ["a", "b", "c", "d"];
     var repeated = repeat(toShuffle, 20);
-    var randomOrder = shuffleNoRepeats(repeated, equalityTest);
+    var randomOrder = shuffleNoRepeats(repeated, getValue);
     var repeats = 0;
     for (var i = 1; i < randomOrder.length; i++) {
-      if (equalityTest(randomOrder[i], randomOrder[i - 1])) {
+      if (getValue(randomOrder[i]) == getValue(randomOrder[i - 1])) {
         repeats++;
       }
     }
@@ -149,7 +149,7 @@ describe("shuffleNoRepeats", function () {
   });
 
   test("should generate a random order with no repeats using objects", function () {
-    var equalityTest = (a, b) => a.color === b.color || a.word === b.word;
+    var getValue = (a) => a.color;
     var toShuffle = [
       { color: "red", word: "red" },
       { color: "red", word: "blue" },
@@ -161,10 +161,10 @@ describe("shuffleNoRepeats", function () {
       { color: "yellow", word: "green" },
     ];
     var repeated = repeat(toShuffle, 20);
-    var randomOrder = shuffleNoRepeats(repeated, equalityTest);
+    var randomOrder = shuffleNoRepeats(repeated, getValue);
     var repeats = 0;
     for (var i = 1; i < randomOrder.length; i++) {
-      if (equalityTest(randomOrder[i], randomOrder[i - 1])) {
+      if (getValue(randomOrder[i]) == getValue(randomOrder[i - 1])) {
         repeats++;
       }
     }
