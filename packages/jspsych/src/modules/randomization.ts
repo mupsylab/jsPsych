@@ -101,59 +101,74 @@ export function shuffle(array: Array<any>) {
   return copy_array;
 }
 
-export function shuffleNoRepeats(arr: Array<any>, getValue: (a: any) => any) {
+export function shuffleNoRepeats(arr: Array<any>, equalityTest: (a: any, b: any) => boolean) {
   if (!Array.isArray(arr)) {
     console.error("First argument to shuffleNoRepeats() must be an array.");
   }
-  if (typeof getValue !== "undefined" && typeof getValue !== "function") {
-    console.error(
-      "Second argument to jsPsych.randomization.shuffleNoRepeats() must be a function."
-    );
+  if (typeof equalityTest !== "undefined" && typeof equalityTest !== "function") {
+    console.error("Second argument to shuffleNoRepeats() must be a function.");
   }
   // define a default equalityTest
-  if (typeof getValue == "undefined") {
-    getValue = function (a) {
-      return JSON.stringify(a);
+  if (typeof equalityTest == "undefined") {
+    equalityTest = function (a, b) {
+      if (a === b) {
+        return true;
+      } else {
+        return false;
+      }
     };
   }
-  // Conversion type
-  const list = {};
-  arr.forEach((v: any, i: number) => {
-    list[getValue(v)] = list[getValue(v)] ? list[getValue(v)] : [0, []];
-    list[getValue(v)][0] += 1;
-    list[getValue(v)][1].push(i);
+  // new function designed by mupsy
+  let tmpA = {};
+  arr.forEach((v1, i1) => {
+    // 0 -> same
+    // 1 -> different
+    tmpA[i1] = [[], []];
+    arr.forEach((v2, i2) => {
+      let result = equalityTest(v1, v2) ? 1 : 0;
+      if (result == 0) {
+        tmpA[i1][1].push(i2);
+      } else {
+        tmpA[i1][0].push(i2);
+      }
+    });
   });
 
-  const random_shuffle = (function c(t_arr: Object, re) {
-    let max = "", // Maximum number of repetitions in the array
-      sum = 0, // Remove the maximum quantity and the remaining quantity
-      sarr = Object.keys(t_arr);
-    if (sarr.length < 1) {
-      return re;
-    } // if length of the keys in arr less than 1, means 0, then return. because there is no thing left
-    for (let i in t_arr) {
-      if (!t_arr[max] || t_arr[i][0] > t_arr[max][0]) {
-        max = i;
+  let re = []; // result
+  let next = Object.keys(tmpA).map((e) => {
+    return parseInt(e);
+  }); // 下一个能取的值
+  let keep = []; // 下一个不能取的值
+
+  // 1. 判断在下一个能取的值中 相同数目最多的数量 以及 索引值
+  while (Object.keys(tmpA).length > 0) {
+    // 取出next中 相同数量最大的索引值
+    let max_num = 0,
+      max_i = [];
+    next.forEach((v, i) => {
+      if (tmpA[v][0].length > max_num) {
+        max_num = tmpA[v][0].length;
+        max_i = [v];
+      } else if (tmpA[v][0].length == max_num) {
+        max_i.push(v);
       }
-      sum += t_arr[i][0];
-    } // result {1:2, 3:3} original [1,1,3,3,3]
-    sum -= t_arr[max][0];
-    let rand_index = t_arr[max][0] - sum >= 1 ? max : sarr[Math.floor(Math.random() * sarr.length)]; // get the value in arr
-    if (re.length && rand_index == getValue(arr[re[re.length - 1]])) {
-      // re is the result, make a judgement
-      let tmp = sarr.splice(sarr.indexOf(rand_index), 1)[0]; //
-      rand_index = sarr.length > 0 ? sarr[Math.floor(Math.random() * sarr.length)] : tmp; //
-    }
-    let asd = t_arr[rand_index][1].splice(Math.floor(Math.random() * t_arr[rand_index][0]), 1);
-    re.push(asd[0]);
-    t_arr[rand_index][0] -= 1;
-    if (t_arr[rand_index][0] < 1) {
-      delete t_arr[rand_index];
-    }
-    return c(t_arr, re);
-  })(list, []);
-  const out = [];
-  random_shuffle.forEach((v) => {
+    });
+    let ii = next.length
+      ? max_i[Math.floor(Math.random() * max_i.length)]
+      : keep[Math.floor(Math.random() * keep.length)];
+    re.push(ii); // result
+    // 删除 取出的值
+    Object.keys(tmpA).forEach((v, i) => {
+      if (tmpA[v][0].indexOf(ii) >= 0) tmpA[v][0].splice(tmpA[v][0].indexOf(ii), 1);
+      if (tmpA[v][1].indexOf(ii) >= 0) tmpA[v][1].splice(tmpA[v][1].indexOf(ii), 1);
+    });
+    // 取出下一个所需的值
+    next = tmpA[ii][1];
+    keep = tmpA[ii][0];
+    delete tmpA[ii];
+  }
+  let out = [];
+  re.forEach((v) => {
     out.push(arr[v]);
   });
   return out;
