@@ -1,5 +1,17 @@
 # @jspsych/plugin-instructions
 
+## 1.1.4
+
+### Patch Changes
+
+- [#3184](https://github.com/jspsych/jsPsych/pull/3184) [`9acfa29c`](https://github.com/jspsych/jsPsych/commit/9acfa29c8db1d7a8816c53ac49651f15493f2cf4) Thanks [@bjoluc](https://github.com/bjoluc)! - Point to source maps via canonical unpkg URLs in NPM-published browser builds. This prevents 404 errors when using redirecting CDN URLs (as described in #3043).
+
+## 1.1.3
+
+### Patch Changes
+
+- [#3039](https://github.com/jspsych/jsPsych/pull/3039) [`347bbb55`](https://github.com/jspsych/jsPsych/commit/347bbb557c4cf954e471e8d66188db0b28e364be) Thanks [@jodeleeuw](https://github.com/jodeleeuw)! - Fix simulation mode behavior so that setting RT and/or view_history correctly sets the other parameter
+
 ## 1.1.2
 
 ### Patch Changes
